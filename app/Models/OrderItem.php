@@ -3,33 +3,42 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\OrderItem;
 
 class OrderItem extends Model
 {
     //
     protected $table='orderItems';
     
-//    public static function getAllSumms($user_id)
-//    {
-//        $summs = array();
-//        $summ = Null;
-//        if($user_id == 0){
-//            $orders = Order::all();
-//        }else{    
-//            $orders = Order::all()->where('user_id',$user_id);
-//        }
-//        foreach($orders as $order){
-//            $items = OrderItem::all()->where('order_id',$order->id); 
-//            $summs[$order->id] = NULL;
-//           foreach($items as $item){
-//               $summs[$order->id] = $summs[$order->id] + $item['end_price']; 
-//           }
-//        }   
-//    return $summs;    
-//    }
     public function name(){
         return $this->item->name;
+    }
+    
+    public function getEditModal(){
+        if($this->item->viewtype === 1){
+            return view('modal.order.editOrderItemSingle',['item'=>$this]);
+        }else {
+            return view('modal.order.editOrderItemBuk',['item'=>$this]);
+        }
+    }
+    
+    public function getSizeName(){
+        $res = false;
+        if(!empty($this->op_val < 4)){
+            switch ($this->op_val){
+                case 1:
+                    $res = 'Маленький';
+                    break;
+                case 2:
+                    $res = 'Средний';
+                    break;
+                case 3:
+                    $res = 'Большой';
+                    break;
+            }
+            return $res;
+        } else {
+            return 'нет размера';
+        }
     }
     
     //Связи

@@ -144,6 +144,11 @@ class OrderController extends Controller
 //        dd($data);
         return view('blocks.sortOrders',$data);
     }
+    
+    public function getEditItemModal(Request $request){
+        $orderItem = OrderItem::find($request->id);
+        return $orderItem->getEditModal();
+    }
 
 
 }

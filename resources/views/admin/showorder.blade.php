@@ -74,9 +74,11 @@
                    <td>{{$item['op_val']}}</td>
                    <td>{{$item['end_price']}}</td>
                    <td>
+                       @if(Auth::user()->isAdmin())
                         <a class="editOrderItem" data-id='{{$item->id}}' href="#">
                             <span class="glyphicon glyphicon-cog"></span>
-                        </a>    
+                        </a>
+                       @endif
                    </td>
                 </tr>
                 @endforeach
@@ -88,13 +90,7 @@
     @include('modal.order.editAdresat')
     @include('modal.order.editAdressAndTime')
     @include('modal.order.editContactData')
-    @foreach($order->OrderItems as $item)
-        @if($item->item->viewtype === 1)
-            @include('modal.order.editOrderItemSingle')
-        @else    
-            @include('modal.order.editOrderItemBuket')
-        @endif    
-    @endforeach    
+    <div class="hidden-block modal-block"></div>
 @endsection
 @section('right')
   @include('blocks.orderOptions')

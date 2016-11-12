@@ -38,7 +38,7 @@ class UserController extends Controller
             'title' => 'Эдельвейс | служба доставки цветов',
             'page_title' => 'Личный кабинет - '.Auth::user()->getFIO(),
             'sets' => Setting::getSet(),
-            'summs' => OrderItem::getAllSumms(Auth::user()->id),                  
+//            'summs' => OrderItem::getAllSumms(Auth::user()->id),                  
         ];
         if(Auth::check())$data = Basket::getBasketVars($data,Auth::user()->id); 
       //  dd($data);

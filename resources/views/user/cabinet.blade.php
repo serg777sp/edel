@@ -98,7 +98,7 @@
                                  @if($order->status==3) Выполнен @endif
                              </td>
                              <td>{{$order->datetime}}</td>
-                             <td class="rub">{{$summs[$order->id]}} &#8381;</td>
+                             <td class="rub">{{$order->getCount()}} &#8381;</td>
                              <td>
                                  <a title='Подробнее' href="{{url('/order/show')}}/{{$order->id}}"><span class="glyphicon glyphicon-search"></span></a>
                                  @if($order->status==0)

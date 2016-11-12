@@ -492,8 +492,23 @@ $( document ).ready(function(){
     
     $('body').on('click','.editOrderItem',function(e){
         e.preventDefault();
-        var id = $(this).attr('data-id');
-        $('#editOrderItem'+id).modal('show');
+        $.ajax({
+            url: '/item/edit-modal/get?id='+$(this).attr('data-id'),
+            method: 'GET',
+            dataType: 'html',
+            headers: {
+                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+            },
+            success: function(data)
+            {
+//                console.log('ааякс прокатил =)',data);
+                $('.modal-block').html(data);
+                $('#editOrderItem').modal('show');
+            },
+            error: function(msg){
+                console.log(msg);
+            }
+        });
     });
     
     $('body').on('click','.selectSize',function(e){
