@@ -1,0 +1,245 @@
+﻿/*Стили для hd экранов*/
+@media only screen and (min-width: 1280px) {
+
+.main
+{
+    width: 1280px;
+}
+.head 
+{
+    width: 1240px;
+    margin-left: 20px;
+}
+.adminhead
+{
+    width: 1240px;
+    margin-left: 20px;
+}
+.admsl 
+{
+     width: 1240px;   
+}
+.sl 
+{
+     width: 1240px;   
+}
+.img1 
+{
+    background-image: url('../img/sl12new.jpg');
+}
+.img2 
+{
+    background-image: url('../img/sl22new.jpg');
+}
+.img3
+{
+    background-image: url('../img/sl32new.jpg');
+}
+.img4
+{
+    background-image: url('../img/sl42new.jpg');
+}
+.basket 
+{
+    margin-left: 880px;
+}
+.inexit 
+{
+    margin-left: 450px;
+}
+.phones 
+{
+    margin-left: 30px;
+}
+.menu 
+{
+    margin-left:130px;
+}
+.content
+{
+    width: 1240px;
+}
+.left 
+{
+    width: 930px;
+}
+.item_card 
+{
+    margin-right: -5px;
+}
+.card_button1
+{
+    margin-left:6px;
+}
+.card_button2
+{
+    margin-right:6px;
+}
+.right 
+{
+    width: 300px;
+}
+.foot_content
+{
+    width: 1000px;
+}
+.foot_box
+{
+    margin-left: 110px;
+}
+/*___________________________________________*/
+}
+/*Конец стилей для hd экранов*/
+/*Стили для full hd экранов*/
+@media only screen and (min-width: 1600px){
+.main
+{
+    width: 1650px;
+}
+.head 
+{
+    width: 1590px;
+    margin-left: 30px;
+}
+.sl 
+{
+     width: 1590px;   
+}
+.img1 
+{
+    background-image: url('../img/sl13new.jpg');
+}
+.img2 
+{
+    background-image: url('../img/sl23new.jpg');
+}
+.img3
+{
+    background-image: url('../img/sl33.jpg');
+}
+.img4
+{
+    background-image: url('../img/sl43new.jpg');
+}
+.slide > span 
+{
+    font-size:35px;
+}
+.basket 
+{
+    margin-left: 1120px;
+    width:410px;
+    height:50px;
+}
+.basket > p 
+{
+    font-size: 20px;
+    line-height: 20px;
+    margin: 4px 20px;
+}
+.basket > a 
+{
+    width: 120px;
+    height: 40px;
+    font-size: 16px;
+    padding-top: 8px;
+}
+.inexit 
+{
+    margin-left: 565px;
+    width:410px;
+    height:50px;
+    background-image: url('../img/bg_inexit_fhd.png');
+}
+.inexit > a 
+{
+    text-decoration: none;
+    display: inline-block;
+    font-weight: normal; 
+    margin: 7px 28px;
+}
+.in { font-size:24px;}
+.reg { font-size:20px;}
+.phones 
+{
+    width:360px;
+    margin-left: 60px;
+}
+.phones > p 
+{
+    font-size:25px;
+    text-align:center;
+}
+.phones > img 
+{
+    margin:5px 0px 0px 25px;
+}
+.phones > a 
+{
+    margin-left:60px;
+}
+.phones > a:hover 
+{
+    margin-left:60px;
+}
+.logotype 
+{
+    left:110px;
+}
+.menu 
+{
+    margin-left:120px;
+    font-size:20px;
+}
+.menu > a 
+{
+    padding: 14px 70px;
+}
+.page_title
+{
+    margin-left:90px;
+}
+.content
+{
+    width: 1590px;
+}
+.left 
+{
+    width: 1060px;
+}
+.item_card 
+{
+    margin: 10px 20px 10px 38px;
+}
+.card_button1
+{
+    margin-left:0px;
+}
+.card_button2
+{
+    margin-right:0px;
+}
+.right 
+{
+    width: 410px;
+    padding: 10px 25px;
+}
+.foot_content
+{
+    width: 1355px;
+}
+.foot_box
+{
+    margin-left: 200px;
+}
+.foot_box > h4 
+{
+    font-size:18px;
+}
+.foot_box > ul
+{
+    font-size:16px;
+}
+/*---------------------------*/
+}
+/*Конец стилей для full hd экранов*/
