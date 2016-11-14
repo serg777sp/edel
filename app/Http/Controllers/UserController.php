@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Item; use App\Models\Itemprop; use App\Models\Order; use App\Models\OrderItem;
 use App\Models\Adresat; use App\Models\Setting; use App\Models\Basket;
 use App\Models\Propertie; use App\Models\ReqCall;
-use App\Models\Categorie; use Illuminate\Support\Facades\Hash;
+use App\Models\Categorie; 
 
 use Auth;
 
@@ -106,12 +106,8 @@ class UserController extends Controller
              'adress' => 'max:255',
         ]);
         
-          $user = Auth::user();
-          if(!empty($request->input('name')))$user->name = $request->input('name');
-          if(!empty($request->input('surname'))) $user->surname = $request->input('surname');
-          if(!empty($request->input('phone')))$user->phone = $request->input('phone');
-          if(!empty($request->input('adress')))$user->adress = $request->input('adress');         
-          $user->save();
+        $user = Auth::user();
+        $user->updateProfile($request);  
     
        return redirect('/cabinet')->with('message','личные данные обновлены');          
     }
@@ -122,14 +118,9 @@ class UserController extends Controller
         $this->validate($request, [
              'oldpass' => 'required|min:6',
              'password' => 'required|min:6|confirmed',
-        ]);        
-        if(Hash::check($request->oldpass, Auth::user()->password)){
-            $user->password = bcrypt($request->password);
-            $user->save();
-            return redirect()->back()->with('message','Пароль изменен'); 
-        }else{
-            return redirect()->back()->with('message','Изменение пароля отклонено, введен неверный пароль'); 
-        }        
+        ]);
+        $mes = $user->editPass($request);
+        return redirect()->back()->with('message',$mes);
     }
     //метод заказа звонка
     public function ReqCall(Request $request){

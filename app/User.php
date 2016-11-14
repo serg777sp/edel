@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -47,6 +49,24 @@ class User extends Authenticatable
             $res = true;
         }
         return $res;
+    }
+    
+    public function updateProfile($request){
+        if(!empty($request->input('name')))$this->name = $request->input('name');
+        if(!empty($request->input('surname'))) $this->surname = $request->input('surname');
+        if(!empty($request->input('phone')))$this->phone = $request->input('phone');
+        if(!empty($request->input('adress')))$this->adress = $request->input('adress');         
+        $this->save();
+    }
+    
+    public function editPass($request){
+        if(Hash::check($request->oldpass, $this->password) || Auth::user()->isAdmin()){
+            $this->password = bcrypt($request->password);
+            $this->save();
+            return 'Пароль изменен';
+        }else{
+            return 'Изменение пароля отклонено, введен неверный пароль'; 
+        } 
     }
     //связи
     public function baskets(){

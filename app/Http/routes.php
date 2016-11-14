@@ -38,8 +38,8 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'], function()
     Route::get('/showcase/delete/{id}','ItemController@delete');
     Route::get('/showcase/delete/{id}/confirm','ItemController@destroy');
     Route::get('/users','AdminController@showusers');
-    Route::get('/users/delete/{user_id}','AdminController@userdel');
-    Route::get('/users/edit/{user_id}','AdminController@useredit');
+    Route::get('/users/delete/{user_id}','AdminController@userDel');
+    Route::get('/users/edit/{user_id}','AdminController@userEdit');
     Route::post('/users/edit','AdminController@checkedit');
     Route::post('/item/addphoto/','ItemController@addphoto');
     Route::post('/item/photo/update','ItemController@updatephoto');
@@ -52,6 +52,9 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'], function()
     Route::get('/reqcall/del/{id}','AdminController@ReqCallDel');
     Route::any('/order/sort','OrderController@getSortOrders');
     Route::get('/showcase/generate','ItemController@ganerate');
+    Route::post('/user/adresat/add/{id}','AdminController@addUserAdresat');
+    Route::post('/user/edit/profile/{id}','AdminController@editUserProfile');
+    Route::post('/user/password/edit/{id}','AdminController@editUserPass');
 });
 //>>>>>>>>>>>>>>>>>>>>Маршруты залогиненных пользователей <<<<<<<<<<<<<<<<<<<<<<<<<<<
 Route::group(['middleware' => 'auth'], function()

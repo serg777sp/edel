@@ -14,11 +14,15 @@ class Adresat extends Model
     //
     protected $table='adresats';
     
-    public function NewAdresat(Request $request)
+    public function NewAdresat(Request $request,$user = NULL)
     {
           $this->name = $request->input('name');
           $this->surname = $request->input('surname');
-          $this->user_id = Auth::user()->id;
+          if($user === NULL){
+            $this->user_id = Auth::user()->id;
+          } else {
+            $this->user_id = $user->id;  
+          }  
           if(!empty($request->input('phone')))$this->phone = $request->input('phone');
           if(!empty($request->input('adress')))$this->adress = $request->input('adress');         
           $this->save();            

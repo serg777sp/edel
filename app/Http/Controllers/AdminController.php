@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
+//use App\Http\Requests;
 use App\Models\Item; use App\Models\OrderItem; use App\Models\Categorie;
 use App\Models\Order; use App\Models\Setting; use App\Models\ReqCall;
-use App\User; use Hash; use App\Models\SmsSender;
+use App\User; use Hash; use App\Models\SmsSender; use App\Models\Adresat;
 
 class AdminController extends Controller
 {
@@ -64,6 +64,18 @@ class AdminController extends Controller
     //   dd($data);
        return view('admin.showusers',$data);    
     }
+    
+    public function userEdit($id){
+        $user = User::find($id);
+        $data = [
+            'title' => 'Эдельвейс | служба доставки цветов',
+            'page_title' => 'Пользователь - '.$user->getFIO(),
+            'sets' => Setting::getSet(),
+            'user' => $user
+        ];
+      //  dd($data);
+    return view('admin.showuser',$data);  
+    }
     //метод просмотра всех заказов
     public function showOrders(Request $req)
     {
@@ -113,5 +125,45 @@ class AdminController extends Controller
         $req = ReqCall::find($id);
         $req->delete();
         return redirect()->back()->with('message','Заказ звонка удален');
+    }
+    
+    public function addUserAdresat(Request $request,$id){
+        $user = User::find($id);
+        $this->validate($request, [
+             'name' => 'required|string|max:255',
+             'surname' => 'required|string|max:255',
+             'phome' => 'digits:11',
+             'adress' => 'max:255',
+        ]);
+        $adresat = new Adresat();
+        $adresat->NewAdresat($request,$user);
+       return redirect()->back()->with('message','Адресат добавлен');
+    }
+    
+    public function userDel(){
+        return redirect()->back()->with('message','Не работает(еще не сделал)');
+    }
+
+        public function editUserProfile(Request $request,$id){
+        $this->validate($request, [
+             'name' => 'string|max:255',
+             'surname' => 'string|max:255',
+             'phome' => 'digits:11',
+             'adress' => 'max:255',
+        ]);
+        
+        $user = User::find($id);
+        $user->updateProfile($request);  
+    
+       return redirect()->back()->with('message','личные данные обновлены');  
+    }
+    
+    public function editUserPass(Request $request,$id){
+        $user = User::find($id);
+        $this->validate($request, [
+             'password' => 'required|min:6|confirmed',
+        ]);
+        $mes = $user->editPass($request);
+        return redirect()->back()->with('message',$mes);
     }
 }

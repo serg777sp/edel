@@ -10,4 +10,5 @@
            <li><a class='clearlink' href="{{ url('/admin') }}">Администрирование</a></li>
            @endif     
         </ul>
+    </div>    
  </div>
