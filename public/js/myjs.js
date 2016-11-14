@@ -571,6 +571,17 @@ $( document ).ready(function(){
             }
         });
     });
+    
+    $('body').on('click','.ed_set',function(e){
+        e.preventDefault();
+        var name = $(this).parent().prev().prev().text();
+        var value = $(this).parent().prev().text();
+        $('.set_name').text(name);
+        $('.set_val').attr('placeholder',value);
+        $('input[name="set_id"]').val($(this).attr('data-id'));
+        $('#editSet').modal('show');
+//        console.log(name,value);
+    });
  
     $('#cssmenu>ul>li.has-sub>a').append('<span class="holder"></span>');
     $('.date-time-picker').datetimepicker({

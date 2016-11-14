@@ -138,6 +138,9 @@
     border-radius: 10px 10px;
     background-image: url('../img/bg_basket.png');
 }
+.ed_set:hover {
+    cursor: pointer;
+}
 .basket > p 
 {
     font-size: 15px;

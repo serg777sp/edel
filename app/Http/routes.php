@@ -55,6 +55,7 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'], function()
     Route::post('/user/adresat/add/{id}','AdminController@addUserAdresat');
     Route::post('/user/edit/profile/{id}','AdminController@editUserProfile');
     Route::post('/user/password/edit/{id}','AdminController@editUserPass');
+    Route::get('/setting/get/{id}','AdminController@getSetData');
 });
 //>>>>>>>>>>>>>>>>>>>>Маршруты залогиненных пользователей <<<<<<<<<<<<<<<<<<<<<<<<<<<
 Route::group(['middleware' => 'auth'], function()

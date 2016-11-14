@@ -106,7 +106,7 @@ class AdminController extends Controller
     public function set_update(Request $req)
     {
        $set = Setting::find($req->input('set_id'));
-       $set->val = $req->input('val');
+       $set->val = $req->input('set');
        $set->save();
     return redirect()->back()->with('message','Настройки изменены');          
     }
