@@ -20,7 +20,7 @@
                     <td>{{$user->name}}</td>
                     <td>{{$user->surname}}</td>
                     <td>{{$user->email}}</td>
-                    <td></td>
+                    <td>{{$user->phone}}</td>
                     <td>
                         <a href="{{ url('admin/users/edit') }}/{{$user->id}}"><span class="glyphicon glyphicon-search"></span></a>
                         <a href="{{ url('admin/users/delete') }}/{{$user->id}}"><span class="glyphicon glyphicon-trash"></span></a>

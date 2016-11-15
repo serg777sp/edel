@@ -23,7 +23,7 @@ class Adresat extends Model
           } else {
             $this->user_id = $user->id;  
           }  
-          if(!empty($request->input('phone')))$this->phone = $request->input('phone');
+          $this->phone = $this->normalizeNumber($request->phone);
           if(!empty($request->input('adress')))$this->adress = $request->input('adress');         
           $this->save();            
     }
@@ -31,9 +31,15 @@ class Adresat extends Model
     {             
           if(!empty($request->name))$this->name = $request->name;
           if(!empty($request->surname)) $this->surname = $request->surname;
-          if(!empty($request->phone))$this->phone = $request->phone;
+          if(!empty($request->phone))$this->phone = $this->normalizeNumber($request->phone);
           if(!empty($request->adress))$this->adress = $request->adress;         
           $this->save();            
+    }
+    
+    protected function normalizeNumber($phone){
+        if($phone){
+            return "8-".preg_replace('~(.{3})(.{3})(.{2})(.{2})~','$1-$2-$3-$4', str_pad(substr(preg_replace('~\D~', '', $phone), -10), 10, '*'));
+        }    
     }
     
     //связи

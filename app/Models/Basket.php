@@ -12,13 +12,15 @@ class Basket extends Model
     //Метод подсчета итоговой суммы заказа
     public static function getSumma($baskets)
     {
-    $sum = '';
-    foreach($baskets as $basket)
-    {
-        $sum += $basket['end_price']; 
-    }
+        $sum = '';
+        foreach($baskets as $basket)
+        {
+            $sum += $basket['end_price']; 
+        }
     return $sum;    
     }
+    
+
     //Добавления новго товара в корзину
     public function NewBasket($user_id,$item_id,$kolvo,$op_val)
     {    

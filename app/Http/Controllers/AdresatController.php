@@ -16,7 +16,7 @@ class AdresatController extends Controller
         $this->validate($request, [
              'name' => 'required|string|max:255',
              'surname' => 'required|string|max:255',
-             'phome' => 'digits:11',
+             'phone' => 'required|max:20',
              'adress' => 'max:255',
         ]);
         $adresat = new Adresat;

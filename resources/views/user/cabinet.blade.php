@@ -82,6 +82,7 @@
                         <tr>
                            <th>ID</th>
                            <th>Статус</th>
+                           <th>Дата Оформления</th>
                            <th>Дата Доставки</th>
                            <th>Сумма</th>
                            <th></th>
@@ -97,22 +98,23 @@
                                  @if($order->status==2) ожидание доставки @endif
                                  @if($order->status==3) Выполнен @endif
                              </td>
+                             <td>{{$order->created_at}}</td>
                              <td>{{$order->datetime}}</td>
                              <td class="rub">{{$order->getCount()}} &#8381;</td>
                              <td>
                                  <a title='Подробнее' href="{{url('/order/show')}}/{{$order->id}}"><span class="glyphicon glyphicon-search"></span></a>
                                  @if($order->status==0)
                                     @if($order->step==1)
-                                    <a href="{{url('/order/step/one')}}/{{$order->id}}">продолжить оформление</a>
+                                    <a href="{{url('/order/step/one')}}/{{$order->id}}">продолжить</a>
                                     @endif
                                     @if($order->step==2)
-                                    <a href="{{url('/order/step/two')}}/{{$order->id}}">продолжить оформление</a>
+                                    <a href="{{url('/order/step/two')}}/{{$order->id}}">продолжить</a>
                                     @endif
                                     @if($order->step==3)
-                                    <a href="{{url('/order/step/three')}}/{{$order->id}}">продолжить оформление</a>
+                                    <a href="{{url('/order/step/three')}}/{{$order->id}}">продолжить</a>
                                     @endif
                                     @if($order->step==4)
-                                    <a href="{{url('/order/step/four')}}/{{$order->id}}">продолжить оформление</a>
+                                    <a href="{{url('/order/step/four')}}/{{$order->id}}">продолжить</a>
                                     @endif 
                                  @endif
                                  @if($order->status==1) <a title="Оплатить" href="#"><span class="glyphicon glyphicon-credit-card"></a> @endif

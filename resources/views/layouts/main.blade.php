@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="{{ asset('/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}" />
     </head>
     <body>
+        <div class="background-div"></div>
     <!-- модалки на вход и регистрацию --> 
         <!-- Модалка на вход -->
         <div id='login-modal' class="modal fade">
@@ -29,9 +30,11 @@
                     <div class="modal-body text-black">
                         <div class="container">
                             <form class="form-signin form-log" role="form"  method="POST" action="{{ url('/login') }}">
-                            <h2 class="form-signin-heading">Заполните форму</h2>
-                            <input type="email" class="form-control" name='email' placeholder="Email address"> <!-- required autofocus> -->
-                            <input type="phone" class="form-control" name='phone' placeholder="Phone">
+<!--                            <h2 class="form-signin-heading">Заполните форму</h2>-->
+                            <label>Login:</label>
+                            <input type="text" class="form-control" name='login' placeholder="Email address or Phone"> <!-- required autofocus> -->
+<!--                            <input type="phone" class="form-control" name='phone' placeholder="Phone">-->
+                            <label>Password:</label>
                             <input type="password" class="form-control" name='password' placeholder="Password" required>
                            <!-- <label class="checkbox">
                                 <input type="checkbox" value="remember-me"> Remember me

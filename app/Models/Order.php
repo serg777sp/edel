@@ -58,9 +58,9 @@ class Order extends Model
     }
 
     public function setStepThreeValues($request,$editStep = true){
-        $this->phone = $request->phone;
+        $this->phone = $this->normalizeNumber($request->phone);
         if($request->phone ==='other'){
-            $this->phone = $request->other_phone;
+            $this->phone = $this->normalizeNumber($request->other_phone);
         }    
         if($request->PS === 'word'){
             $this->voice = $request->PStext;
@@ -149,6 +149,12 @@ class Order extends Model
 //        }
 //        $query->groupBy('item.id');
         return $query->distinct();
+    }
+    
+    protected function normalizeNumber($phone){
+        if($phone){
+            return "8-".preg_replace('~(.{3})(.{3})(.{2})(.{2})~','$1-$2-$3-$4', str_pad(substr(preg_replace('~\D~', '', $phone), -10), 10, '*'));
+        }    
     }
 
     //связи

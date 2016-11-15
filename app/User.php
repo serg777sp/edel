@@ -68,6 +68,15 @@ class User extends Authenticatable
             return 'Изменение пароля отклонено, введен неверный пароль'; 
         } 
     }
+    
+    public function getBasketSum(){
+        $sum = '';
+        foreach(Auth::user()->baskets as $basket)
+        {
+            $sum += $basket['end_price']; 
+        }
+    return $sum;         
+    }
     //связи
     public function baskets(){
         return $this->hasMany('App\Models\Basket');

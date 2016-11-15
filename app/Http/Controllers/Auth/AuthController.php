@@ -39,8 +39,7 @@ class AuthController extends Controller
     //Переопределенный метод postLogin
     public function postLogin(\Illuminate\Http\Request $request) {
         $validator = Validator::make($request->all(), [
-            'email' => 'required_without:phone|email|max:255',
-            'phone' => 'required_without:email|max:15',
+            'login' => 'required|max:150',
             'password' => 'required|min:6',
         ]);
         if ($validator->fails()) {
@@ -48,18 +47,21 @@ class AuthController extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
-        if(!empty($request->email)){
+        if(strpos($request->login,'@')){
             //авторизируем по майлу
-            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+            $validator = Validator::make($request->all(), [
+                'login' => 'email',
+            ]);
+            if (Auth::attempt(['email' => $request->login, 'password' => $request->password])){
                 return redirect('/');
             }
-        }
-        if(!empty($request->phone)){
+        } else {
             //авторизируем по телефону
-            if (Auth::attempt(['phone' => $request->phone, 'password' => $request->password])){
+            $phone = $this->normalizeNumber($request->login);
+            if (Auth::attempt(['phone' => $phone, 'password' => $request->password])){
                 return redirect('/');
             }
-        }
+        }    
         return redirect('/')->with('message','Не верный логин или пароль');
     }
     //Переопределенный метод postregister
@@ -85,7 +87,7 @@ class AuthController extends Controller
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required_without:phone|email|max:255|unique:users',
-            'phone' => 'required_without:email|max:12',
+            'phone' => 'required_without:email|max:16|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
     }
@@ -101,7 +103,7 @@ class AuthController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'phone' => $data['phone'],
+            'phone' => $this->normalizeNumber($data['phone']),
             'password' => bcrypt($data['password']),
         ]);
     }

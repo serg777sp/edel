@@ -1,6 +1,6 @@
 @if(Auth::check())
-    @if($item_count>0)
-    <p>Выбрано товаров - <span class="bold">{{$item_count}}</span><br>сумма - <span class="bold">{{$summa}}</span> руб.</p>
+    @if(Auth::user()->baskets->count()>0)
+    <p>Выбрано товаров - <span class="bold">{{Auth::user()->baskets->count()}}</span><br>сумма - <span class="bold">{{Auth::user()->getBasketSum()}}</span> руб.</p>
     @else 
     <p class='bold m'>Корзина<br> пуста</p>
     @endif 

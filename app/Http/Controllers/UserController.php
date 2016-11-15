@@ -50,9 +50,9 @@ class UserController extends Controller
             'page_title' => 'Все об оплате',  
             'sets' => Setting::getSet(),               
         ];
-        if(Auth::check()){
-            $data = Basket::getVar($data,Auth::user()->id);
-        }    
+//        if(Auth::check()){
+//            $data = Basket::getVar($data,Auth::user()->id);
+//        }    
    // dd($data);
     return view('user.oplata',$data);           
     }
@@ -62,7 +62,7 @@ class UserController extends Controller
             'page_title' => 'Все о доставке',  
             'sets' => Setting::getSet(),               
         ];
-        if(Auth::check())$data = Basket::getVar($data,Auth::user()->id);
+//        if(Auth::check())$data = Basket::getVar($data,Auth::user()->id);
    // dd($data);
     return view('user.dostavka',$data);           
     }
@@ -72,7 +72,7 @@ class UserController extends Controller
             'page_title' => 'Условия работы',  
             'sets' => Setting::getSet(),               
         ];
-        if(Auth::check())$data = Basket::getVar($data,Auth::user()->id);
+//        if(Auth::check())$data = Basket::getVar($data,Auth::user()->id);
    // dd($data);
     return view('user.working',$data);           
     }
@@ -82,7 +82,7 @@ class UserController extends Controller
             'page_title' => 'Гарантии',  
             'sets' => Setting::getSet(),               
         ];
-        if(Auth::check())$data = Basket::getVar($data,Auth::user()->id);
+//        if(Auth::check())$data = Basket::getVar($data,Auth::user()->id);
    // dd($data);
     return view('user.garant',$data);           
     }
@@ -92,7 +92,7 @@ class UserController extends Controller
             'page_title' => 'О нас',  
             'sets' => Setting::getSet(),               
         ];
-        if(Auth::check())$data = Basket::getVar($data,Auth::user()->id);
+//        if(Auth::check())$data = Basket::getVar($data,Auth::user()->id);
    // dd($data);
     return view('user.about',$data);           
     }
@@ -140,9 +140,9 @@ class UserController extends Controller
             $req->SaveModel($request->input('guest_name'),$request->input('guest_phone'));
             return redirect('/')->with('message','Заказ звонка принят');          
         }
-        if(Auth::check()){
-            $data = Basket::getBasketVars($data,Auth::user()->id);
-        }    
+//        if(Auth::check()){
+//            $data = Basket::getBasketVars($data,Auth::user()->id);
+//        }    
    // dd($data);
     return view('user.reqcall',$data);          
     }
