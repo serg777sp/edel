@@ -147,6 +147,28 @@ class Item extends Model
     return $mess;               
     }
     
+    public static function getSortQueryNotAjax($request){
+        $item = new Item;
+        $query = $item->newQuery()->select('items.*');
+//        $query->join('prop_item','items.id','=','prop_item.item_id','left');
+        if(!empty($request->catId)){
+            if($request->catId > 0){
+                $query->where('items.cat_id',$request->catId);
+            }    
+        }
+        if(!empty($request->subId)){
+            $query->where('items.sub_id',$request->subId);
+        }
+//        if(!empty($request->from)){
+//            $query->where('prop_item.price','>',$request->from);
+//        }
+//        if(!empty($request->to)){
+//            $query->where('prop_item.price','<',$request->to);
+//        }
+//        $query->groupBy('item.id');
+        return $query->distinct();        
+    } 
+    
     public static function getSortQuery($request){
         $item = new Item;
         $query = $item->newQuery()->select('items.*');

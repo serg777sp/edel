@@ -28,16 +28,16 @@ class AdminController extends Controller
         return view('admin.index',$data);
     }
     //метод вывода товаров витрины для редактирования
-    public function showcase()
+    public function showcase(Request $request)
     {
         $data = [
             'title' => 'Администраторская - Эдельвейс - цветочный салон',
             'page_title' => 'Работа с витриной магазина',
             'sets' => Setting::getSet(), 
-            'items' => Item::paginate(18),
+            'items' => Item::getSortQueryNotAjax($request)->paginate(18),
             'catalog' => Categorie::catalog(),
         ];
-       //  dd($items);
+//         dd($data);
         return view('admin.showcase',$data);
     }
     //метод вывода каталога для редактирования

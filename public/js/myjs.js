@@ -43,7 +43,9 @@ $( document ).ready(function(){
         $('.bigfoto').attr('src','/img/original/'+url); 
     });
     
-    $('.show_image_form').click(function(){
+    $('body').on('click','.show_image_form',function(){
+        $('.active').removeClass('active');
+        $(this).addClass('active');
         var id = $(this).attr('id');
         $('.imgs_edit_links').css('display','none');
         $('.add_form').css('display','none');
@@ -595,6 +597,26 @@ $( document ).ready(function(){
         $('.bigfoto').attr('src','/img/original/'+url);
         console.log(url);
     });
+    
+    var s = getQueryVariable('catId');
+    if(s){
+//        console.log($('[data-type="cat"][data-id='+s+']').parent());
+        var el = $('[data-type="cat"][data-id='+s+']');
+        el.parent().addClass('open');
+        el.next().css('display','block');
+    }
+    
+    $('body').on('click','.i-sort-adm',function(e){
+        e.preventDefault();
+        if($(this).attr('data-type') === 'cat'){
+            location.search = 'catId='+$(this).attr('data-id');
+        }
+        if($(this).attr('data-type') === 'sub'){
+            location.search = 'catId='+$(this).attr('data-cat-id')+'&subId='+$(this).attr('data-id');
+        }
+    });
+    
+    
  
     $('#cssmenu>ul>li.has-sub>a').append('<span class="holder"></span>');
     $('.date-time-picker').datetimepicker({
@@ -627,4 +649,16 @@ function getID($str,$id){
         i++;
     }
 return res;   
+}
+
+function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split('&');
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        if (decodeURIComponent(pair[0]) == variable) {
+            return decodeURIComponent(pair[1]);
+        }
+    }
+    console.log('Query variable %s not found', variable);
 }

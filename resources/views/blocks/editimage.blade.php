@@ -6,7 +6,7 @@
                  @if($imgs[$i]->imgurl==$item['url'])
                  Главная - 
                  @endif
-                 <button class="btn btn-warning"><span id="changeform{{$i}}" class='show_image_form'>Изменить фото 
+                 <button id="changeform{{$i}}" class="btn btn-warning show_image_form">Изменить фото 
                     @if($item['viewtype']==0)
                        @if($i==0)
                        малого букета
@@ -20,9 +20,9 @@
                     @else
                      № {{$i}}                    
                     @endif    
-                     </span></button>   
+                 </button>   
               @else
-                 <button class="btn btn-warning"><span id="addingform{{$i}}" class='show_image_form'>Добавить фото
+                 <button id="addingform{{$i}}" class="btn btn-warning show_image_form">Добавить фото
                     @if($item['viewtype']==0)
                        @if($i==0)
                        малого букета
@@ -36,7 +36,7 @@
                     @else
                      № {{$i}}                    
                     @endif      
-                 </span></button>
+                 </button>
               @endif  
        @endfor
 @for ($i=0; $i < 3; $i++)
