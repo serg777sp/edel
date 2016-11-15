@@ -220,7 +220,7 @@ class Item extends Model
     }
     
     public function getPhotos(){
-       return $this->props()->where('type',4)->get(); 
+       return $this->props()->where('type',4)->get()->sortBy('razmer'); 
     }
     
     public function getPrices(){

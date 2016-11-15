@@ -78,7 +78,21 @@
                 <div class="content">
                     <div class="left">
                         @if(!empty(Session::get('message')))
-                        <div class='message'>{{Session::get('message')}}</div>
+<!--                            <div class='message'>{{Session::get('message')}}</div>-->
+                            <div class='alert alert-with-margin alert-danger'>
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{Session::get('message')}}
+                            </div> 
+                        @endif
+                        @if (count($errors) > 0)
+                            <div class='alert alert-with-margin alert-danger'>
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>    
                         @endif
                         <div class='line'></div> 
                         @yield('left')

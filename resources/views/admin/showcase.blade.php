@@ -12,6 +12,7 @@
   @else
      Товаров еще не созданно 
   @endif
+  {{$items->render()}}
 @endsection
 @section('right')
 @include('blocks.showcase_option')

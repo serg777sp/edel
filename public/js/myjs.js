@@ -46,6 +46,8 @@ $( document ).ready(function(){
     $('.show_image_form').click(function(){
         var id = $(this).attr('id');
         $('.imgs_edit_links').css('display','none');
+        $('.add_form').css('display','none');
+        $('.change_form').css('display','none');
         $('.'+id).css('display','inherit');
     });
     
@@ -581,6 +583,17 @@ $( document ).ready(function(){
         $('input[name="set_id"]').val($(this).attr('data-id'));
         $('#editSet').modal('show');
 //        console.log(name,value);
+    });
+    $('body').on('click','.show_photo',function(e){
+        var url = $(this).attr('data-url');
+        $('.selected').removeClass('btn-warning');
+        $('.selected').addClass('btn-info');
+        $('.selected').removeClass('selected');
+        $(this).removeClass('btn-info');
+        $(this).addClass('btn-warning');
+        $(this).addClass('selected');
+        $('.bigfoto').attr('src','/img/original/'+url);
+        console.log(url);
     });
  
     $('#cssmenu>ul>li.has-sub>a').append('<span class="holder"></span>');

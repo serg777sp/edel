@@ -34,7 +34,7 @@ class AdminController extends Controller
             'title' => 'Администраторская - Эдельвейс - цветочный салон',
             'page_title' => 'Работа с витриной магазина',
             'sets' => Setting::getSet(), 
-            'items' => Item::all()->toArray() ,
+            'items' => Item::paginate(18),
             'catalog' => Categorie::catalog(),
         ];
        //  dd($items);

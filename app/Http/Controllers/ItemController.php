@@ -100,22 +100,22 @@ class ItemController extends Controller
     //Метод редактирования существующих товаров
     public function edit($id)
     {
-        $item = Item::find($id)->toArray();
-        $props = Itemprop::all()->where('item_id',$item['id'])->toArray();
+        $item = Item::find($id);
+//        $props = Itemprop::all()->where('item_id',$item['id'])->toArray();
         $data = [
            'title' => 'Администраторская - Эдельвейс - цветочный салон',
            'page_title' => 'Редактирование товара '.$item['name'],
            'item' => $item,
-           'props'=> $props,
-           'imgs'=> Itemprop::getImgsInProp($props,$item['viewtype']),
-           'prices'=> Itemprop::getAllPrices($props,$item['id']),
-           'cats' => Categorie::all()->toArray(),
+//           'props'=> $props,
+           'imgs'=> $item->getPhotos(),
+           'prices'=> $item->getPrices(),
+           'cats' => Categorie::all(),
            'subs' => Subcategorie::all()->toArray(),
            'sets' => Setting::getSet(),
         ];
         $data['item_count'] = 0;
         if(Auth::check())$data = Basket::getBasketVars($data,Auth::user()->id);        
-   //     dd($data);
+//        dd($data);
         return view('item.edit',$data);
     }
     //Метод добавления фоток к товарам
