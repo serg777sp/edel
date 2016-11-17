@@ -628,6 +628,7 @@ input.card_button2
     background-image: url('../img/foot_bg.png');
     background-repeat: no-repeat;
     background-position: 4% 20%;
+    background-color: #fff;
     position: relative;
 }
 .foot_content
