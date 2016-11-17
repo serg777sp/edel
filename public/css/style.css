@@ -345,8 +345,8 @@ span a
     height: 355px;
     background-color: white;
     display: inline-block;
-    margin-right:10px;
-    margin-bottom:10px;
+    margin-right:4px;
+    margin-bottom:7px;
     padding: 5px;
 }
 .right > div 
@@ -1237,6 +1237,10 @@ div.modal div.container {
 .table-inline table {
     width: 49%;
     display: inline-table;
+}
+.slide span
+{
+    font-size: 27px;
 }
 ::-webkit-input-placeholder {color:#6c625f;}
 ::-moz-placeholder          {color:#6c625f;}
