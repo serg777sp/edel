@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Itemprop;
+use App\Models\Itemprop;
 
 class Basket extends Model
 {
