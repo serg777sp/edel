@@ -30,8 +30,13 @@
                   <input id="form_user{{$item->id}}" type='hidden' name='user_id' value="guest">
                   @endif
                   <input id="form_item{{$item->id}}" type='hidden' name='item_id' value="{{$item->id}}">     
-                  <a class='floatleft card_button1' href="{{url('/showcase/item')}}/{{$item->id}}">Подробнее</a>
-                  <input type='button' class='floatright card_button2 ajaxadd' value='В корзину'>
+                  @if(Auth::check())
+                    <a class='floatleft card_button1' href="{{url('/showcase/item')}}/{{$item->id}}">Подробнее</a>
+                    <input type='button' class='floatright card_button2 ajaxadd' value='В корзину'>
+                  @else
+                    <a class='floatleft card_button1 o' data-id="log" href="{{url('/showcase/item')}}/{{$item->id}}">Подробнее</a>
+                    <input type='button' class='floatright card_button2 o' data-id="log" value='В корзину'>
+                  @endif
                   <input type="hidden" name="_token" value="{{csrf_token()}}">
                </form>
                <div class='hidden'>

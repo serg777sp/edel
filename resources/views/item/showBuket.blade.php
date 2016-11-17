@@ -1,5 +1,5 @@
 <img class='bigfoto' src="/img/original/{{$item->url}}">
-<div class='prices sh'>
+<div class='itemProps sh'>
     <div class="panel panel-warning">
         <div class="panel-heading"><small>Размер букета</small></div>
         <div class="panel-body">

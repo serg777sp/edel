@@ -32,8 +32,13 @@
                @endif
                @endforeach
                <!--  ///////////////////////////////////////////////////////      -->
-                  <a class='floatleft card_button1' href="{{url('/showcase/item')}}/{{$item->id}}">Подробнее</a>
-                  <input id="but{{$item->id}}" type='button' class='floatright card_button2 ajaxadd' value='В корзину'>
+                  @if(Auth::check())
+                    <a class='floatleft card_button1' href="{{url('/showcase/item')}}/{{$item->id}}">Подробнее</a>
+                    <input id="but{{$item->id}}" type='button' class='floatright card_button2 ajaxadd' value='В корзину'>
+                  @else
+                    <a class='floatleft card_button1 o' data-id="log" href="{{url('/showcase/item')}}/{{$item->id}}">Подробнее</a>
+                    <input id="but{{$item->id}}" type='button' class='floatright card_button2 o' data-id="log" value='В корзину'>
+                  @endif
                </form>
                <div class='hidden'>
                @foreach($item->props->sortBy('razmer') as $prop)

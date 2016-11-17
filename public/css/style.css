@@ -952,9 +952,8 @@ div.line
 {
     width: 285px;
     float: right;
-/*    border: 1px dotted gray;*/
     border-radius: 10px 10px;
-    margin:5px 10px;
+    margin:0px 10px;
     padding: 10px 20px;    
 }
 .basket_table
@@ -982,7 +981,7 @@ div.line
     vertical-align: top;
     width: 45%;
     border-radius: 10px 10px;
-    margin: 5px 22px;
+    margin: 5px 15px;
 }
 .order_table
 {
@@ -1238,6 +1237,14 @@ div.modal div.container {
 .table-inline table {
     width: 49%;
     display: inline-table;
+}
+.box-500
+{
+    width: 500px;
+}
+.with-margin-top-15
+{
+    margin-top: 15px;
 }
 .slide span
 {

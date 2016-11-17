@@ -1,6 +1,6 @@
 <img class='bigfoto' src="/img/original/{{$item->url}}">
 
-<div class='prices sh'>
+<div class='prices sh with-margin-top-15'>
     <div class="panel panel-warning">
         <div class="panel-heading"><span class="glyphicon">&#8381;</span> Цены</div>
         <div class="panel-body">
@@ -56,7 +56,7 @@
     </div>
 </div>
 
-<div class='description single-width'>
+<div class='description des'>
     <div class="panel panel-warning">
         <div class="panel-heading">Описание</div>
         <div class="panel-body">

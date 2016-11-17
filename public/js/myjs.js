@@ -207,7 +207,7 @@ $( document ).ready(function(){
     
     $('body').on('click','.o',function(e){
         e.preventDefault();
-        var id = $(this).attr('id');
+        var id = $(this).attr('data-id');
         if(id === 'log'){
             $("#login-modal").modal('show');
         }

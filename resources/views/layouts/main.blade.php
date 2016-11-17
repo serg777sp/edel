@@ -101,8 +101,8 @@
                     <!-- Ссылки Блока вход/выход -->
                     
                     @if (Auth::guest())
-                        <a class='link in o' id='log'>Вход</a>
-                        <a class='link reg o' id='reg'>Регистрация</a>
+                        <a class='link in o' data-id='log'>Вход</a>
+                        <a class='link reg o' data-id='reg'>Регистрация</a>
                     @else
                     <div class='usermenu btn-group'>
                         <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle myUserMenu">
