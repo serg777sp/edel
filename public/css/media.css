@@ -10,6 +10,10 @@
     width: 1240px;
     margin-left: 20px;
 }
+.admmenu
+{
+    bottom:90px;
+}
 .adminhead
 {
     width: 1240px;
@@ -109,6 +113,7 @@
     width: 1590px;
     margin-left: 30px;
 }
+.admmenu {     bottom:90px; }
 .sl 
 {
      width: 1590px;   
