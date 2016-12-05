@@ -1,29 +1,29 @@
-$( document ).ready(function(){    
-    
+$( document ).ready(function(){
+
     $('.but_del').click(function(){
         var id = $(this).attr('id');
-        $('#'+id).next().attr('style','display:block'); 
+        $('#'+id).next().attr('style','display:block');
     });
-    
+
     $('.no').click(function(){
         $('.del').attr('style','display:none');
     });
-    
+
     $('#item_name').keyup(function(){
         var value = $(this).val();
     $(".item_card h4").text(value);
     });
-    
+
     $('#price').keyup(function(){
         var value = $(this).val();
         $('.price').text(value);
-    });   
-    
+    });
+
     $('#dlina').change(function(){
     var value = $(this).val();
-    $(".dlina input").attr('value',value); 
+    $(".dlina input").attr('value',value);
     });
-    
+
     $('#cat').change(function(){
         var value = $(this).val();
         console.log(value);
@@ -32,17 +32,17 @@ $( document ).ready(function(){
         $('#id'+value).css('display','inherit');
         $('#id'+value).attr('name','sub');
     });
-    
+
     $('.showform').click(function(){
         $(this).css('display','none');
         $(this).next().css('display','inherit');
     });
-    
+
     $('.showphoto').click(function(){
         var url = $(this).attr('id');
-        $('.bigfoto').attr('src','/img/original/'+url); 
+        $('.bigfoto').attr('src','/img/original/'+url);
     });
-    
+
     $('body').on('click','.show_image_form',function(){
         $('.active').removeClass('active');
         $(this).addClass('active');
@@ -52,7 +52,7 @@ $( document ).ready(function(){
         $('.change_form').css('display','none');
         $('.'+id).css('display','inherit');
     });
-    
+
     $('body').on('click','.but_buk_r',function(){
 //        console.log('СЃРјРµРЅР° СЂР°Р·РјРµСЂР° РІ РїСЂР°РІРѕ');
         var id = $(this).parent().attr('id');
@@ -74,14 +74,14 @@ $( document ).ready(function(){
             $('#price'+id).text(newprice);
             $('#form_price'+id).val(newprice);
             $('#razmer'+id).text(newrazmer);
-            $('#form_razmer'+id).val(getNum(newrazmer)); 
+            $('#form_razmer'+id).val(getNum(newrazmer));
         }
     });
-    
+
     $('body').on('click','.but_buk_l',function(){
 //        console.log('СЃРјРµРЅР° СЂР°Р·РјРµСЂР° РІ Р»РµРІРѕ');
         var id = $(this).parent().attr('id');
-            id = getID(id,$(this).parent().attr('class'));   
+            id = getID(id,$(this).parent().attr('class'));
         var op = true;
         var razmer = $('#razmer'+id).text();
         var el = $('#'+razmer+'-'+id).prev();
@@ -99,10 +99,10 @@ $( document ).ready(function(){
             $('#price'+id).text(newprice);
             $('#form_price'+id).val(newprice);
             $('#razmer'+id).text(newrazmer);
-            $('#form_razmer'+id).val(getNum(newrazmer)); 
-        }    
+            $('#form_razmer'+id).val(getNum(newrazmer));
+        }
     });
-    
+
     $('body').on('click','.but_sin_r',function(){
         var id = $(this).parent().attr('id');
             id = getID(id,$(this).parent().attr('class'));
@@ -124,10 +124,10 @@ $( document ).ready(function(){
             $('#price'+id).text(newprice);
             $('#form_price'+id).val(newprice);
             $('.single_value'+id).text(newprice);
-            $('#dlina'+id).val(newdlina); 
-        }      
+            $('#dlina'+id).val(newdlina);
+        }
     });
-    
+
     $('body').on('click','.but_sin_l',function(){
         var id = $(this).parent().attr('id');
         id = getID(id,$(this).parent().attr('class'));
@@ -148,11 +148,11 @@ $( document ).ready(function(){
             $('#kolvo'+id).val(1);
             $('#price'+id).text(newprice);
             $('#form_price'+id).val(newprice);
-            $('.single_value'+id).text(newprice); 
-            $('#dlina'+id).val(newdlina); 
-        }      
+            $('.single_value'+id).text(newprice);
+            $('#dlina'+id).val(newdlina);
+        }
     });
-    
+
     $('body').on('click','.but_kolvo_r',function(){
         var id = $(this).parent().attr('id');
         id = getID(id,$(this).parent().attr('class'));
@@ -164,7 +164,7 @@ $( document ).ready(function(){
         $('#price'+id).text(Number(price)+Number(single_price));
         $('#form_price'+id).val($('#price'+id).text());
     });
-    
+
     $('body').on('click','.but_kolvo_l',function(){
         var id = $(this).parent().attr('id');
         id = getID(id,$(this).parent().attr('class'));
@@ -176,35 +176,35 @@ $( document ).ready(function(){
             var  price = $('#price'+id).text();
             $('#price'+id).text(Number(price)-Number(single_price));
             $('#form_price'+id).val($('#price'+id).text());
-        }    
+        }
     });
-    
+
     $('input[name=PS]').change(function(){
         if($(this).val()=='none'){
             $('#PS').css('display','none');
-        }else{  
+        }else{
             $('#PS').css('display','inherit');
             if($(this).val()=='word')$('#PS').text('Р§С‚Рѕ РїРµСЂРµРґР°С‚СЊ РЅР° СЃР»РѕРІР°С…?');
             if($(this).val()=='postcard')$('#PS').text('Р§С‚Рѕ РЅР°РїРёСЃР°С‚СЊ РЅР° РѕС‚РєСЂС‹С‚РєРµ?');
         }
 
     });
-    
+
     $('#confim_but').click(function(){
         $('#confim_order').css('display','block');
         console.log('click');
     });
-    
+
     $('.ed_set').click(function(){
         var id = $(this).attr('id');
         $('#set'+id).css('display','inherit');
     });
-    
+
     $('.res').click(function(){
         var id = $(this).attr('id');
         $('.hidden').css('display','none');
     });
-    
+
     $('body').on('click','.o',function(e){
         e.preventDefault();
         var id = $(this).attr('data-id');
@@ -215,7 +215,7 @@ $( document ).ready(function(){
             $("#register-modal").modal('show');
         }
     });
-    
+
     $('body').on('click','.easyAdd',function(e){
         e.preventDefault();
         $.ajax({
@@ -245,7 +245,7 @@ $( document ).ready(function(){
             }
         });
     });
-    
+
     $('.ajaxadd').click(function () {
 
     var id = $(this).parent().attr('id');
@@ -285,17 +285,17 @@ $( document ).ready(function(){
             }
         });
     });
-    
+
     $('body').on('click','.rqdel',function(e){
         e.preventDefault();
         $('#rqDel'+$(this).attr('data-id')).modal('show');
     });
-    
+
     $('body').on('click','.nodel',function(e){
         $('.hidden').css('display','none');
         e.preventDefault();
     });
-    
+
 //    $('body').on('click','.sortOrders',function(e){
 //        e.preventDefault();
 //        $.ajax({
@@ -317,7 +317,7 @@ $( document ).ready(function(){
 //            }
 //        });
 //    });
-    
+
     $('body').on('click','.showCat',function(e){
         e.preventDefault();
         $('#catId').val($(this).attr('data-id'));
@@ -343,7 +343,7 @@ $( document ).ready(function(){
             }
         });
     });
-    
+
 //    $('body0').on('change','i-range',function(e){
 //        console.log(e);
 //    });
@@ -352,7 +352,7 @@ $( document ).ready(function(){
 //        console.log(el.val());
         $('.i-'+t).val(el.val());
     };
-    
+
     $('body').on('click','.i-sort',function(e){
         e.preventDefault();
         var type = $(this).attr('data-type');
@@ -400,7 +400,7 @@ $( document ).ready(function(){
             }
         });
     });
-    
+
     $('body').on('click','.deleteBasket',function(e){
         e.preventDefault();
         $.ajax({
@@ -423,9 +423,9 @@ $( document ).ready(function(){
             error: function(msg){
                 console.log(msg);
             }
-        });        
+        });
     });
-    
+
     $('body').on('click','.addAdresat',function(e){
         e.preventDefault();
         $('#adresat-modal').modal('show');
@@ -438,7 +438,7 @@ $( document ).ready(function(){
         e.preventDefault();
         $('#edit-pass-modal').modal('show');
     });
-    
+
     $('body').on('click','.showMore',function(e){
         e.preventDefault();
         var page = $('#currentPage').val();
@@ -487,13 +487,13 @@ $( document ).ready(function(){
             element.siblings('li').find('ul').slideUp();
         }
     });
-    
+
     $('body').on('click','.editOrder',function(e){
         e.preventDefault();
         var modal = $(this).attr('data-modal');
         $('#'+modal).modal('show');
     });
-    
+
     $('body').on('click','.editOrderItem',function(e){
         e.preventDefault();
         $.ajax({
@@ -514,7 +514,7 @@ $( document ).ready(function(){
             }
         });
     });
-    
+
     $('body').on('click','.selectSize',function(e){
         e.preventDefault();
         $('#currentPrice').text($(this).next().val());
@@ -528,16 +528,16 @@ $( document ).ready(function(){
             $('.bigfoto').attr('src','/img/original/net.jpg');
         }
     });
-    
+
     $('body').on('click','.selectDlina',function(e){
         e.preventDefault();
-        $('#currentPrice').text($(this).next().val()); 
+        $('#currentPrice').text($(this).next().val());
         $('#currentDlina').text($(this).text());
         $('#form_dlina').val($(this).attr('data-dlina'));
         $('#form_count').val('1');
         $('.currentCount').text('1');
     });
-    
+
     $('body').on('click','.minusCount',function(){
         var count = $('.currentCount').text();
         count--;
@@ -554,7 +554,7 @@ $( document ).ready(function(){
             $('#form_count').val(count);
         }
     });
-    
+
     $('body').on('click','.showOrder',function(e){
         e.preventDefault();
         console.log($(this).attr('data-id'));
@@ -575,7 +575,7 @@ $( document ).ready(function(){
             }
         });
     });
-    
+
     $('body').on('click','.ed_set',function(e){
         e.preventDefault();
         var name = $(this).parent().prev().prev().text();
@@ -597,7 +597,7 @@ $( document ).ready(function(){
         $('.bigfoto').attr('src','/img/original/'+url);
         console.log(url);
     });
-    
+
     var s = getQueryVariable('catId');
     if(s){
 //        console.log($('[data-type="cat"][data-id='+s+']').parent());
@@ -605,7 +605,7 @@ $( document ).ready(function(){
         el.parent().addClass('open');
         el.next().css('display','block');
     }
-    
+
     $('body').on('click','.i-sort-adm',function(e){
         e.preventDefault();
         if($(this).attr('data-type') === 'cat'){
@@ -615,30 +615,30 @@ $( document ).ready(function(){
             location.search = 'catId='+$(this).attr('data-cat-id')+'&subId='+$(this).attr('data-id');
         }
     });
-    
-    
- 
+
+
+
     $('#cssmenu>ul>li.has-sub>a').append('<span class="holder"></span>');
     $('.date-time-picker').datetimepicker({
         locale: 'ru',
         inline: true,
         sideBySide: true
     });
-});    
+});
     /////////////////////////////Р¤СѓРЅРєС†РёРё//////////////////////////////////
 function getNum($str){
     var res;
     if($str == 'Маленький')res=1;
     if($str == 'Средний')res=2;
     if($str == 'Большой')res=3;
-    return res;    
+    return res;
 }
 function getStr($num){
     var res;
     if($num == 1)res='Маленький';
     if($num == 2)res='Средний';
     if($num == 3)res='Большой';
-    return res;    
+    return res;
 }
 function getID($str,$id){
     var len = $str.length-$id.length;
@@ -648,7 +648,7 @@ function getID($str,$id){
         res = res+$str.charAt(i);
         i++;
     }
-return res;   
+return res;
 }
 
 function getQueryVariable(variable) {

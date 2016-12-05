@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Image;
-use App\Models\Itemprop;
+use Itemprop;
 use DB;
+
 class Item extends Model
 {
     //Метод получения массива имен товаров
@@ -16,42 +17,57 @@ class Item extends Model
        foreach($items as $item){
            $itemnames[(int)$item->id] = $item->name;
        }
-    return $itemnames;   
+    return $itemnames;
     }
     //Метод создания нового букета
     public static function newBuket(Request $request)
     {
-       $item =''; 
-       $request->file('foto')->move(public_path('img/original/'), $request->file('foto')->getClientOriginalName()); 
+       $request->file('foto')->move(public_path('img/original/'), $request->file('foto')->getClientOriginalName());
        $imageR = Image::make('img/original/'.$request->file('foto')->getClientOriginalName())->resize(300,225);
-       $imageR->save('img/small/'.$request->file('foto')->getClientOriginalName());       
+       $imageR->save('img/small/'.$request->file('foto')->getClientOriginalName());
+
        $item = new Item;
-       $item->name = $request->input('name');         
-       $item->url= $request->file('foto')->getClientOriginalName();    
+       $item->name = $request->input('name');
+       $item->url= $request->file('foto')->getClientOriginalName();
        $item->description = $request->input('description');
        if(!empty($request->input('cat')))$item->cat_id = $request->input('cat');
        if(!empty($request->input('sub')))$item->sub_id = $request->input('sub');
-       $item->viewtype = 0;              
+       $item->viewtype = 0;
        $item->save();
-    return $item;           
+       $item->saveItemProp($request);
+    return $item;
     }
+
+    //Метод сохранения свойств товара в базу
+    public function saveItemProp(Request $request){
+        if(!$this->viewtype){
+            //для букетов
+            Itemprop::createNewProp('цена+размер',$request->input('price'),$request->input('razmer'),$this->id);
+            Itemprop::createNewProp('размер+фото',$request->input('razmer'),
+                                                    $request->file('foto')->getClientOriginalName(),$this->id);
+        }
+        if($this->viewtype){
+            //для штучных
+        }
+    }
+
     //Метод создания нового штучного
     public static function newSingle(Request $request)
     {
        $item ='';
-       $request->file('foto')->move(public_path('img/original/'), $request->file('foto')->getClientOriginalName()); 
+       $request->file('foto')->move(public_path('img/original/'), $request->file('foto')->getClientOriginalName());
        $imageR = Image::make('img/original/'.$request->file('foto')->getClientOriginalName())->resize(300,225);
-       $imageR->save('img/small/'.$request->file('foto')->getClientOriginalName());               
-         
+       $imageR->save('img/small/'.$request->file('foto')->getClientOriginalName());
+
        $item = new Item;
-       $item->name = $request->input('name');       
-       $item->url= $request->file('foto')->getClientOriginalName();    
+       $item->name = $request->input('name');
+       $item->url= $request->file('foto')->getClientOriginalName();
        $item->description = $request->input('description');
        if(!empty($request->input('cat')))$item->cat_id = $request->input('cat');
        if(!empty($request->input('sub')))$item->sub_id = $request->input('sub');
-       $item->viewtype = 1;         
+       $item->viewtype = 1;
        $item->save();
-    return $item;    
+    return $item;
     }
     //метод добавления фото
     public static function addphoto(Request $request)
@@ -67,7 +83,7 @@ class Item extends Model
         $prop->razmer = $request->input('razmer');
     }
     $prop->save();
-    return 'Фото добавлено';       
+    return 'Фото добавлено';
     }
     //Метод обновления фото
     public static function updatephoto(Request $request)
@@ -75,7 +91,7 @@ class Item extends Model
  //  dd($request->input('item_id'));
     $request->file('foto')->move(public_path('img/original/'), $request->file('foto')->getClientOriginalName());
     $item = Item::find($request->input('item_id'));
-    $props = Itemprop::all()->where('item_id',$item->id)->toArray();   
+    $props = Itemprop::all()->where('item_id',$item->id)->toArray();
     $imgs = Itemprop::getImgsInProp($props,$request->input('viewtype'));
   //  dd($imgs);
     if($request->input('viewtype')==0){
@@ -83,7 +99,7 @@ class Item extends Model
            if($key == $request->input('razmer')){
                echo 'Было совпадение урл';
               if(Storage::disk('public')->exists('/img/original/'.$value))Storage::disk('public')->delete('/img/original/'.$value);
-              $oldimg = Itemprop::where('imgurl','=',$value); 
+              $oldimg = Itemprop::where('imgurl','=',$value);
               $newimg = Itemprop::createNewProp('размер+фото',$request->input('razmer'),$request->file('foto')->getClientOriginalName(),$request->input('item_id'));
            }
        }
@@ -93,7 +109,7 @@ class Item extends Model
            if($key == $request->input('razmer')){
               echo 'Было совпадение урл';
               if(Storage::disk('public')->exists('/img/original/'.$value))Storage::disk('public')->delete('/img/original/'.$value);
-              $oldimg = Itemprop::where('imgurl','=',$value);                          
+              $oldimg = Itemprop::where('imgurl','=',$value);
               $newimg = Itemprop::createNewProp('фото',$request->file('foto')->getClientOriginalName(),1,$request->input('item_id'));
            }
        }
@@ -103,50 +119,50 @@ class Item extends Model
        $imageR->save('img/small/'.$request->file('foto')->getClientOriginalName());
        if(Storage::disk('public')->exists('/img/small/'.$oldimg->imgurl))Storage::disk('public')->delete('/img/original/'.$oldimg->imgurl);
        $item->url= $request->file('foto')->getClientOriginalName();
-       $item->save();  
+       $item->save();
     }
     $oldimg->delete();
-    return 'Фото обновлено';        
+    return 'Фото обновлено';
     }
     //Метод редактирования цен
     public static function editprice(Request $request,$viewtype)
     {
       $props = Itemprop::where('item_id', '=',$request->input('item_id'))->get();
       $mess='';
-      if($viewtype==0){    
+      if($viewtype==0){
         for($i=1; $i<4;$i++){
-          if(!empty($request->input($i))){  
+          if(!empty($request->input($i))){
             $oldprice = Itemprop::getOldPrice($props,$i,'цена+размер');
-            
+
             if(!empty($oldprice)){
                $oldprice->price = $request->input($i);
                $oldprice->save();
-               $mess .= '|'.$i.' цена изменена '; 
+               $mess .= '|'.$i.' цена изменена ';
             }else{
-               Itemprop::createNewProp('цена+размер',$request->input($i),$i,$request->input('item_id')); 
-               $mess .= '|'.$i.' цена создана ';  
+               Itemprop::createNewProp('цена+размер',$request->input($i),$i,$request->input('item_id'));
+               $mess .= '|'.$i.' цена создана ';
             }
-          }        
+          }
         }
       }
-      if($viewtype==1){    
+      if($viewtype==1){
         for($i=50; $i<120;$i+=10){
-          if(!empty($request->input($i))){  
+          if(!empty($request->input($i))){
             $oldprice = Itemprop::getOldPrice($props,$i,'цена+длина');
             if(!empty($oldprice)){
                $oldprice->price = $request->input($i);
                $oldprice->save();
-               $mess .= '|'.$i.' цена изменена '; 
+               $mess .= '|'.$i.' цена изменена ';
             }else{
-               Itemprop::createNewProp('цена+длина',$request->input($i),$i,$request->input('item_id')); 
-               $mess .= '|'.$i.' цена создана ';  
+               Itemprop::createNewProp('цена+длина',$request->input($i),$i,$request->input('item_id'));
+               $mess .= '|'.$i.' цена создана ';
             }
-          }        
+          }
         }
       }
-    return $mess;               
+    return $mess;
     }
-    
+
     public static function getSortQueryNotAjax($request){
         $item = new Item;
         $query = $item->newQuery()->select('items.*');
@@ -154,7 +170,7 @@ class Item extends Model
         if(!empty($request->catId)){
             if($request->catId > 0){
                 $query->where('items.cat_id',$request->catId);
-            }    
+            }
         }
         if(!empty($request->subId)){
             $query->where('items.sub_id',$request->subId);
@@ -166,9 +182,9 @@ class Item extends Model
 //            $query->where('prop_item.price','<',$request->to);
 //        }
 //        $query->groupBy('item.id');
-        return $query->distinct();        
-    } 
-    
+        return $query->distinct();
+    }
+
     public static function getSortQuery($request){
         $item = new Item;
         $query = $item->newQuery()->select('items.*');
@@ -176,7 +192,7 @@ class Item extends Model
         if(!empty($request->catId)){
             if($request->catId > 0){
                 $query->where('items.cat_id',$request->catId);
-            }    
+            }
         }
         if(!empty($request->subId)){
             $query->where('items.sub_id',$request->subId);
@@ -191,7 +207,7 @@ class Item extends Model
         return $query->distinct();
     }
 
-    //Генератор товаров 
+    //Генератор товаров
     public function generate($count){
         for($i = 0; $i < $count; $i++){
             $cat = rand(1,DB::table('categories')->count());
@@ -202,53 +218,53 @@ class Item extends Model
                 if($key == 0){
                     if(rand(0,1)){
                         $sub = $subIds[$key]->id;
-                    }    
+                    }
                 } else {
                     $sub = $subIds[$key]->id;
                 }
-            }                         
+            }
             $item = new Item;
             $type = rand(0,2);
             if($type){
-                $name = 'Букет'.rand(1,100);             
-                $item->url= 'generateBuk.png';    
+                $name = 'Букет'.rand(1,100);
+                $item->url= 'generateBuk.png';
                 $item->description = 'Генерированный букет';
                 $item->viewtype = 0;
-                $price = rand(1,5000).'.'.rand(0,99);                          
+                $price = rand(1,5000).'.'.rand(0,99);
                 $razmer = rand(0,4);
-                $item->name = $name;               
+                $item->name = $name;
                 $item->cat_id = $cat;
-                $item->sub_id = $sub; 
+                $item->sub_id = $sub;
                 $item->save();
                 Itemprop::createNewProp('цена+размер',$price,$razmer,$item->id);
-                Itemprop::createNewProp('размер+фото',$razmer,$item->url,$item->id);            
+                Itemprop::createNewProp('размер+фото',$razmer,$item->url,$item->id);
             } else {
                 $name = 'Цветок'.rand(1,100);
                 $item->url= 'generate.jpg';
                 $item->description = 'Генерированный цветок';
                 $item->viewtype = 1;
-                $item->name = $name;               
+                $item->name = $name;
                 $item->cat_id = $cat;
                 $item->sub_id = $sub;
-                $item->save(); 
-                
+                $item->save();
+
                 $price = rand(1,1000).'.'.rand(0,100);
-                $dlina = rand(6,12).'0';    
+                $dlina = rand(6,12).'0';
                 Itemprop::createNewProp('цена+длина',$price,(int)$dlina,$item->id);
-                Itemprop::createNewProp('фото',$item->url,0,$item->id);       
-            } 
+                Itemprop::createNewProp('фото',$item->url,0,$item->id);
+            }
         }
-        return true;         
+        return true;
     }
-    
+
     public function getPhotos(){
-       return $this->props()->where('type',4)->get()->sortBy('razmer'); 
+       return $this->props()->where('type',4)->get()->sortBy('razmer');
     }
-    
+
     public function getPrices(){
         return $this->props()->where('type',$this->viewtype+1)->orderBy('price')->get();
     }
-    
+
     public function getFirstPriceValue(){
         return $this->props()->where('type',$this->viewtype+1)->first()->price;
     }
@@ -262,16 +278,16 @@ class Item extends Model
     public function getFirstSize(){
         return $this->props()->where('type',1)->first()->razmer;
     }
-    
+
     //Связи
     public function props(){
         return $this->hasMany('App\Models\Itemprop');
     }
-    
-    public function basket(){
-        return $this->hasOne('App\Models\Basket');
+
+    public function baskets(){
+        return $this->hasMany('App\Models\Basket');
     }
-    
+
     public function orderItem(){
         return $this->hasOne('App\Models\OrderItem');
     }

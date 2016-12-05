@@ -5,50 +5,47 @@
     <div class='col-lg-8 item_form'>
         <div class="panel panel-warning">
             <div class="panel-heading"><span class="glyphicon glyphicon-plus"></span> Форма добавления товара</div>
-            <div class="panel-body"> 
+            <div class="panel-body">
                 <form class='form' method='post' enctype='multipart/form-data' action="{{ url('admin/showcase/add/buket') }}">
                     <div>
                         <label>Категория:</label>
                         <select class="form-control" id='cat' name='cat'>
-                            <option value='0' selected>нет</option>
+                            <option value='0'>Нет</option>
                             @foreach($cats as $cat)
-                            <option value="{{$cat['id']}}">{{$cat['name']}}<option>   
+                            <option value="{{$cat['id']}}" @if($cat['id'] == $old->old('cat')) selected @endif>{{$cat['name']}}<option>
                             @endforeach
                         </select>
                         @foreach($cats as $cat)
-                        <select id="id{{$cat['id']}}" class='form-control subhid'>
-                            <option value='0' selected>Нет</option>
-                            @foreach($subs as $sub)                                   
-                               @if($cat['id'] == $sub['categorie_id'])
-                                  <option value="{{$sub['id']}}">{{$sub['name']}}</option>
-                               @endif
+                        <select id="id{{$cat['id']}}" class='form-control subhid {{$cat->getClassForCurrentSub($old->old('cat'))}}'>
+                            <option value='0'>Нет</option>
+                            @foreach($cat->subs as $sub)
+                            <option value="{{$sub['id']}}" @if($sub['id'] == $old->old('sub')) selected @endif>{{$sub['name']}}</option>
                             @endforeach
                         </select>
-                        @endforeach 
+                        @endforeach
                    </div>
                    <div>
                         <label>Главное изображение:</label>
                         <input class="form-control" id='image' type='file' name='foto'>
                    </div>
-                   <div>   
+                   <div>
                       <label>Имя:</label>
-                      <input class="form-control" id='item_name' type='text' name='name'>
+                      <input class="form-control" id='item_name' type='text' name='name' value="{{$old->old('name')}}">
                    </div>
-                   <div>   
+                   <div>
                       <label>Цена:</label>
-                      <input class="form-control" id='price' type='text' name='price'>
+                      <input class="form-control" id='price' type='text' name='price' value="{{$old->old('price')}}">
                       <label>Размер:</label>
                       <select class="form-control" id='razmer' name='razmer'>
-                          <option value='1'>малый</option>
-                          <option value='2' selected>средний</option>
-                          <option value='3'>большой</option>
+                          <option value='1' @if($old->old('razmer') == 1) selected @endif>малый</option>
+                          <option value='2' @if($old->old('razmer') == 2) selected @endif>средний</option>
+                          <option value='3' @if($old->old('razmer') == 3) selected @endif>большой</option>
                       </select>
                    </div>
-                   <div>   
+                   <div>
                       <label>Описание:</label>
-                      <textarea class="form-control" name='description'>
-                      </textarea>
-                   </div>     
+                      <textarea class="form-control" name='description'>{{$old->old('description')}}</textarea>
+                   </div>
                     <button class="btn btn-block btn-success" type='submit' name='button' value='Добавить'>Добавить новый Букет</button>
                    <input type="hidden" name="_token" value="{{csrf_token()}}">
                </form>
@@ -77,7 +74,7 @@
                   <input class='floatright card_button2' type='submit'value='В корзину'>
                </div>
            </div>
-</div>                   
+</div>
 @endsection
 @section('right')
     @include('blocks.showcase_option')

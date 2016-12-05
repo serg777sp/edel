@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'], function()
     Route::get('/catalog/destroy/subcategorie/{id}','CatalogController@destroysub');
     Route::get('/showcase','AdminController@showcase');
     Route::get('/showcase/add/buket','ItemController@createbuket');
-    Route::post('/showcase/add/buket','ItemController@checkbuket');
+    Route::post('/showcase/add/buket','ItemController@createbuket');
     Route::get('/showcase/add/single','ItemController@createsingle');
     Route::post('/showcase/add/single','ItemController@checksingle');
     Route::get('/showcase/edit/{id}','ItemController@edit');
