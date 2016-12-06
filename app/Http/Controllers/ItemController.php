@@ -40,8 +40,10 @@ class ItemController extends Controller
                 if($validator->fails()){
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
-                dd($validator->getData());
-                dd($request->foto->getOriginalName());
+//                $validator2 = Validator::make(['image' => $request->foto->getClientOriginalName()], [ 'image' => 'unique:prop_item,imgurl|unique:items,url']);
+//                if($validator2->fails()){
+//                    return redirect()->back()->withErrors($validator2)->withInput();
+//                }
                 $mess = Item::newBuket($request);
             } catch (Exception $e){
                 dd($e);

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Image;
-use Itemprop;
+use App\Models\Itemprop;
 use DB;
 
 class Item extends Model
@@ -20,12 +20,14 @@ class Item extends Model
     return $itemnames;
     }
     //Метод создания нового букета
-    public static function newBuket(Request $request)
+    public static function newBuket($request)
     {
-       $request->file('foto')->move(public_path('img/original/'), $request->file('foto')->getClientOriginalName());
-       $imageR = Image::make('img/original/'.$request->file('foto')->getClientOriginalName())->resize(300,225);
-       $imageR->save('img/small/'.$request->file('foto')->getClientOriginalName());
-
+        if(!file_exists('img/original/' . $request->foto->getClientOriginalName())){
+            var_dump('file not exist');
+            $request->file('foto')->move(public_path('img/original/'), $request->file('foto')->getClientOriginalName());
+            $imageR = Image::make('img/original/'.$request->file('foto')->getClientOriginalName())->resize(300,225);
+            $imageR->save('img/small/'.$request->file('foto')->getClientOriginalName());
+        }
        $item = new Item;
        $item->name = $request->input('name');
        $item->url= $request->file('foto')->getClientOriginalName();
@@ -35,11 +37,11 @@ class Item extends Model
        $item->viewtype = 0;
        $item->save();
        $item->saveItemProp($request);
-    return $item;
+    return 'Букет ' . $item->name . 'успешно создан!';
     }
 
     //Метод сохранения свойств товара в базу
-    public function saveItemProp(Request $request){
+    public function saveItemProp($request){
         if(!$this->viewtype){
             //для букетов
             Itemprop::createNewProp('цена+размер',$request->input('price'),$request->input('razmer'),$this->id);
