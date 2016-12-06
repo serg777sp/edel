@@ -22,7 +22,7 @@ class AdminController extends Controller
             'of_count' => Order::all()->where('status',0)->count(),
             'orders' => Order::all()->where('status',2),
             'sets' => Setting::getSet(),
-            'reqcalls_count' => ReqCall::all()->count(),              
+            'reqcalls_count' => ReqCall::all()->count(),
         ];
     //    dd($data);
         return view('admin.index',$data);
@@ -33,11 +33,11 @@ class AdminController extends Controller
         $data = [
             'title' => 'Администраторская - Эдельвейс - цветочный салон',
             'page_title' => 'Работа с витриной магазина',
-            'sets' => Setting::getSet(), 
+            'sets' => Setting::getSet(),
             'items' => Item::getSortQueryNotAjax($request)->paginate(18),
             'catalog' => Categorie::catalog(),
         ];
-//         dd($data);
+//         dd($data['items']);
         return view('admin.showcase',$data);
     }
     //метод вывода каталога для редактирования
@@ -46,7 +46,7 @@ class AdminController extends Controller
         $data = [
             'title' => 'Администраторская - Эдельвейс - цветочный салон',
             'page_title' => 'Управление каталогом магазина',
-            'sets' => Setting::getSet(), 
+            'sets' => Setting::getSet(),
             'catalog' => Categorie::catalog(),
         ];
        // dd($data);
@@ -58,13 +58,13 @@ class AdminController extends Controller
        $data = [
            'title' => 'Администраторская - Эдельвейс - цветочный салон',
            'page_title' => 'Работа с пользователями',
-           'sets' => Setting::getSet(), 
+           'sets' => Setting::getSet(),
            'users' => User::all(),
        ];
     //   dd($data);
-       return view('admin.showusers',$data);    
+       return view('admin.showusers',$data);
     }
-    
+
     public function userEdit($id){
         $user = User::find($id);
         $data = [
@@ -74,7 +74,7 @@ class AdminController extends Controller
             'user' => $user
         ];
       //  dd($data);
-    return view('admin.showuser',$data);  
+    return view('admin.showuser',$data);
     }
     //метод просмотра всех заказов
     public function showOrders(Request $req)
@@ -83,12 +83,12 @@ class AdminController extends Controller
         $data = [
             'title' => 'Администраторская - Эдельвейс - цветочный салон',
             'page_title' => 'Работа с заказами',
-            'sets' => Setting::getSet(), 
+            'sets' => Setting::getSet(),
             'catalog' => Categorie::catalog(),
-            'orders' => Order::getSortQuery($req)->paginate(10)->appends($req->all()), 
+            'orders' => Order::getSortQuery($req)->paginate(10)->appends($req->all()),
         ];
-   // dd($data);    
-    return view('admin.showorders',$data);         
+   // dd($data);
+    return view('admin.showorders',$data);
     }
     //Метод просмотра и изменения настроек
     public function settings()
@@ -96,11 +96,11 @@ class AdminController extends Controller
         $data = [
             'title' => 'Администраторская - Эдельвейс - цветочный салон',
             'page_title' => 'Настройки магазина',
-            'sets' => Setting::getSet(), 
+            'sets' => Setting::getSet(),
             'settings' => Setting::all(),
         ];
-        //dd($data);        
-    return view('admin.settings',$data);    
+        //dd($data);
+    return view('admin.settings',$data);
     }
     //Метод изменения настроек
     public function set_update(Request $req)
@@ -108,7 +108,7 @@ class AdminController extends Controller
        $set = Setting::find($req->input('set_id'));
        $set->val = $req->input('set');
        $set->save();
-    return redirect()->back()->with('message','Настройки изменены');          
+    return redirect()->back()->with('message','Настройки изменены');
     }
     //метод просмотра заказанных звонков
     public function ReqCallShow(){
@@ -118,7 +118,7 @@ class AdminController extends Controller
            'reqcalls' => ReqCall::paginate(10),
        ];
     //   dd($data);
-       return view('admin.reqcallshow',$data);          
+       return view('admin.reqcallshow',$data);
     }
     //метод удаления заканных звонков
     public function ReqCallDel($id){
@@ -126,7 +126,7 @@ class AdminController extends Controller
         $req->delete();
         return redirect()->back()->with('message','Заказ звонка удален');
     }
-    
+
     public function addUserAdresat(Request $request,$id){
         $user = User::find($id);
         $this->validate($request, [
@@ -139,7 +139,7 @@ class AdminController extends Controller
         $adresat->NewAdresat($request,$user);
        return redirect()->back()->with('message','Адресат добавлен');
     }
-    
+
     public function userDel(){
         return redirect()->back()->with('message','Не работает(еще не сделал)');
     }
@@ -151,13 +151,13 @@ class AdminController extends Controller
              'phome' => 'digits:11',
              'adress' => 'max:255',
         ]);
-        
+
         $user = User::find($id);
-        $user->updateProfile($request);  
-    
-       return redirect()->back()->with('message','личные данные обновлены');  
+        $user->updateProfile($request);
+
+       return redirect()->back()->with('message','личные данные обновлены');
     }
-    
+
     public function editUserPass(Request $request,$id){
         $user = User::find($id);
         $this->validate($request, [

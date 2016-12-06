@@ -9,6 +9,10 @@ use DB;
 
 class Item extends Model
 {
+
+    const BUKET = 0;
+    const FLOWER = 1;
+
     //Метод получения массива имен товаров
     public static function getNames()
     {
@@ -22,21 +26,24 @@ class Item extends Model
     //Метод создания нового букета
     public static function newBuket($request)
     {
-        if(!file_exists('img/original/' . $request->foto->getClientOriginalName())){
-            var_dump('file not exist');
-            $request->file('foto')->move(public_path('img/original/'), $request->file('foto')->getClientOriginalName());
-            $imageR = Image::make('img/original/'.$request->file('foto')->getClientOriginalName())->resize(300,225);
-            $imageR->save('img/small/'.$request->file('foto')->getClientOriginalName());
+        try{
+            if(!file_exists('img/original/' . $request->foto->getClientOriginalName())){
+                var_dump('file not exist');
+                $request->file('foto')->move(public_path('img/original/'), $request->file('foto')->getClientOriginalName());
+                $imageR = Image::make('img/original/'.$request->file('foto')->getClientOriginalName())->resize(300,225);
+                $imageR->save('img/small/'.$request->file('foto')->getClientOriginalName());
+            }
+            $item = new Item;
+            $item->name = $request->input('name');
+            $item->description = $request->input('description');
+            if(!empty($request->input('cat')))$item->cat_id = $request->input('cat');
+            if(!empty($request->input('sub')))$item->sub_id = $request->input('sub');
+            $item->viewtype = 0;
+            $item->save();
+            $item->saveItemProp($request);
+        } catch (Exception $e){
+            return $e->getMessage();
         }
-       $item = new Item;
-       $item->name = $request->input('name');
-       $item->url= $request->file('foto')->getClientOriginalName();
-       $item->description = $request->input('description');
-       if(!empty($request->input('cat')))$item->cat_id = $request->input('cat');
-       if(!empty($request->input('sub')))$item->sub_id = $request->input('sub');
-       $item->viewtype = 0;
-       $item->save();
-       $item->saveItemProp($request);
     return 'Букет ' . $item->name . 'успешно создан!';
     }
 
@@ -44,12 +51,11 @@ class Item extends Model
     public function saveItemProp($request){
         if(!$this->viewtype){
             //для букетов
-            Itemprop::createNewProp('цена+размер',$request->input('price'),$request->input('razmer'),$this->id);
-            Itemprop::createNewProp('размер+фото',$request->input('razmer'),
-                                                    $request->file('foto')->getClientOriginalName(),$this->id);
+            Itemprop::createNewProp(1,$request->all(),$this->id);
         }
         if($this->viewtype){
             //для штучных
+            dd('стоп');
         }
     }
 
@@ -190,7 +196,7 @@ class Item extends Model
     public static function getSortQuery($request){
         $item = new Item;
         $query = $item->newQuery()->select('items.*');
-        $query->join('prop_item','items.id','=','prop_item.item_id','left');
+        $query->join('item_props','items.id','=','item_props.item_id','left');
         if(!empty($request->catId)){
             if($request->catId > 0){
                 $query->where('items.cat_id',$request->catId);
@@ -200,10 +206,10 @@ class Item extends Model
             $query->where('items.sub_id',$request->subId);
         }
         if(!empty($request->from)){
-            $query->where('prop_item.price','>',$request->from);
+            $query->where('item_props.price','>',$request->from);
         }
         if(!empty($request->to)){
-            $query->where('prop_item.price','<',$request->to);
+            $query->where('item_props.price','<',$request->to);
         }
 //        $query->groupBy('item.id');
         return $query->distinct();
@@ -260,7 +266,10 @@ class Item extends Model
     }
 
     public function getPhotos(){
-       return $this->props()->where('type',4)->get()->sortBy('razmer');
+       return $this->props()->get()->sortBy('razmer');
+    }
+    public function getImageName(){
+        return $this->props()->get()->first()->img_url;
     }
 
     public function getPrices(){

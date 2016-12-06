@@ -11,42 +11,52 @@ use App\Http\Requests;
 class Itemprop extends Model
 {
     //константы
-    const TYPE_PRICE_SIZE = 1;
-    const TYPE_PRICE_LENGTH = 2;
-    const TYPE_PHOTO = 3;
-    const TYPE_SIZE_PHOTO = 4; 
+    const TYPE_BUKET = 1;
+    const TYPE_FLOWER = 2;
+    const TYPE_FLOWER_PHOTO = 3;
     //
-    protected $table='prop_item';
-    //метод создания нового свойства товара    
-    public static function createNewProp($name,$val1,$val2,$item_id)
+    protected $table='item_props';
+    //метод создания нового свойства товара
+    public static function createNewProp($type,array $params,$item_id)
     {
     $prop = new Itemprop;
-    if($name=='цена+размер'){
-        $prop->name = 'цена+размер';
-        $prop->price = $val1;
-        $prop->razmer = $val2;
-    }    
-    if($name=='размер+фото'){
-        $prop->name = 'размер+фото';
-        $prop->razmer = $val1;
-        $prop->imgurl = $val2;        
-    }
-    if($name=='цена+длина'){
-        $prop->name = 'цена+длина';
-        $prop->price = $val1;
-        $prop->dlina = $val2;         
-    }
-    if($name=='фото')
-    {
-        $prop->name = 'фото';
-        $prop->imgurl= $val1;       
-    }        
+//    if($name=='цена+размер'){
+//        $prop->name = 'цена+размер';
+//        $prop->price = $val1;
+//        $prop->razmer = $val2;
+//    }
+//    if($name=='размер+фото'){
+//        $prop->name = 'размер+фото';
+//        $prop->razmer = $val1;
+//        $prop->imgurl = $val2;
+//    }
+//    if($name=='цена+длина'){
+//        $prop->name = 'цена+длина';
+//        $prop->price = $val1;
+//        $prop->dlina = $val2;
+//    }
+//    if($name=='фото')
+//    {
+//        $prop->name = 'фото';
+//        $prop->imgurl= $val1;
+//    }
+        switch ($type) {
+            case 1:
+                $prop->size = $params['size'];
+                $prop->img_url = $params['foto']->getClientOriginalName();
+                $prop->price = $params['price'];
+                break;
 
+            default:
+                break;
+        }
+
+    $prop->type = $type;
     $prop->item_id = $item_id;
-    $prop->save(); 
+    $prop->save();
     return $prop;
     }
-    //метод получения изображений 
+    //метод получения изображений
     public static function getImgsInProp(array $props, $viewtype)
     {
     $imgs = array();
@@ -63,11 +73,11 @@ class Itemprop extends Model
           if($prop['name'] == 'фото')
           {
              $imgs[$i] = $prop['imgurl'];
-             $i++; 
+             $i++;
           }
         }
     }
-    return $imgs;     
+    return $imgs;
     }
     //Метод получения старой цены от размера или длины
     public static function getOldPrice($props, $val,$name)
@@ -78,7 +88,7 @@ class Itemprop extends Model
                 {
                     $oldprice = $prop;
                     break;
-                }             
+                }
         }
     return $oldprice;
     }
@@ -93,19 +103,19 @@ class Itemprop extends Model
             if(!empty($prop['dlina']))$prices[$prop['dlina']]= $prop['price'];
         }
     }
-    return $prices;    
+    return $prices;
     }
     //Метод получения цены
     public static function getPrice($item_id,$op_val,$param)
     {
     $price='';
-    $props = Itemprop::all()->where('item_id',(int)$item_id)->toArray();       
+    $props = Itemprop::all()->where('item_id',(int)$item_id)->toArray();
     if($param==0){
         foreach($props as $prop)
         {
             if(($prop['razmer'] == $op_val) && !empty($prop['price'])){
                 $price= $prop['price'];
-            }  
+            }
         }
     }
     if($param==1){
@@ -113,12 +123,12 @@ class Itemprop extends Model
         {
             if(($prop['dlina'] == $op_val) && !empty($prop['price'])){
                 $price= $prop['price'];
-            }  
+            }
         }
-    }    
-    return $price;    
     }
-    
+    return $price;
+    }
+
     public function getSizeName(){
         $res = false;
         if(!empty($this->razmer)){
@@ -138,7 +148,7 @@ class Itemprop extends Model
             return 'нет размера';
         }
     }
-    
+
     //Связи
     public function item(){
         return $this->belongsTo('App\Models\Item');

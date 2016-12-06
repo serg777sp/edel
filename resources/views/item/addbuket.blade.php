@@ -36,10 +36,10 @@
                       <label>Цена:</label>
                       <input class="form-control" id='price' type='text' name='price' value="{{$old->old('price')}}">
                       <label>Размер:</label>
-                      <select class="form-control" id='razmer' name='razmer'>
-                          <option value='1' @if($old->old('razmer') == 1) selected @endif>малый</option>
-                          <option value='2' @if($old->old('razmer') == 2) selected @endif>средний</option>
-                          <option value='3' @if($old->old('razmer') == 3) selected @endif>большой</option>
+                      <select class="form-control" id='razmer' name='size'>
+                          <option value='1' @if($old->old('size') == 1) selected @endif>малый</option>
+                          <option value='2' @if($old->old('size') == 2) selected @endif>средний</option>
+                          <option value='3' @if($old->old('size') == 3) selected @endif>большой</option>
                       </select>
                    </div>
                    <div>

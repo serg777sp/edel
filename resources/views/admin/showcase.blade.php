@@ -1,7 +1,7 @@
 @extends('layouts.adminmain')
 
 @section('left')
-  @if(!empty($items))
+  @if(count($items) > 0)
      @foreach($items as $item)
        @if($item['viewtype'] == 0)
           @include('blocks.admitemBuk')
@@ -10,7 +10,7 @@
        @endif
      @endforeach
   @else
-     Товаров еще не созданно 
+       <center><h4>Товаров еще нет!</h4></center>
   @endif
   {{$items->render()}}
 @endsection

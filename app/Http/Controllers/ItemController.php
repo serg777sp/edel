@@ -34,16 +34,16 @@ class ItemController extends Controller
                     'foto' => 'image|required',
                     'name' => 'required|string|max:30',
                     'price' => 'required|numeric|digits_between:0,99999.99',
-                    'razmer'=> 'required|numeric|digits_between:0,4',
+                    'size'=> 'required|numeric|digits_between:0,200',
                     'description' => 'required|string',
                 ]);
                 if($validator->fails()){
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
-//                $validator2 = Validator::make(['image' => $request->foto->getClientOriginalName()], [ 'image' => 'unique:prop_item,imgurl|unique:items,url']);
-//                if($validator2->fails()){
-//                    return redirect()->back()->withErrors($validator2)->withInput();
-//                }
+                $validator2 = Validator::make(['image' => $request->foto->getClientOriginalName()], [ 'image' => 'unique:item_props,img_url']);
+                if($validator2->fails()){
+                    return redirect()->back()->withErrors($validator2)->withInput();
+                }
                 $mess = Item::newBuket($request);
             } catch (Exception $e){
                 dd($e);
@@ -128,7 +128,6 @@ class ItemController extends Controller
            'sets' => Setting::getSet(),
         ];
         $data['item_count'] = 0;
-        if(Auth::check())$data = Basket::getBasketVars($data,Auth::user()->id);
 //        dd($data);
         return view('item.edit',$data);
     }

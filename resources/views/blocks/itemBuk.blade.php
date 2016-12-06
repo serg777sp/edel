@@ -1,5 +1,6 @@
            <div class="item_card">
-               <img class='card' src="/img/small/{{$item->url}}">
+               <?php dd(1214); ?>
+               <img class='card' src="/img/small/{{$item->getPropFirst()->img_url}}">
                <h4>{{$item->name}}</h4>
                <div class='rating'>
                   <p>Рейтинг</p>
@@ -7,11 +8,11 @@
                </div>
                <!--  ///////////////////////////////////////////////////////      -->
                @foreach($item->props->sortBy('razmer') as $prop)
-               @if($prop->type == $prop::TYPE_PRICE_SIZE) 
+               @if($prop->type == $prop::TYPE_PRICE_SIZE)
                <div class='razmer' id="{{$item->id}}razmer">
                   <p>Размер</p>
                   <div class='left_arrow but_buk_l'></div>
-                  <span id="razmer{{$item->id}}">{{$prop->getSizeName()}}</span>                                    
+                  <span id="razmer{{$item->id}}">{{$prop->getSizeName()}}</span>
                   <div class='right_arrow but_buk_r'></div>
                </div>
                <div class='cena'>
@@ -27,7 +28,7 @@
                   <input type='hidden' name='user_id' value="guest">
                   @endif
                   <input id="form_item{{$item->id}}" type='hidden' name='item_id' value="{{$item->id}}">
-                  <input type="hidden" name="_token" value="{{csrf_token()}}">               
+                  <input type="hidden" name="_token" value="{{csrf_token()}}">
                @break
                @endif
                @endforeach
