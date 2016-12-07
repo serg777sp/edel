@@ -58,7 +58,7 @@ class ItemController extends Controller
     //Метод  добавления штучного товара
     public function createFlower(Request $request)
     {
-	if($request->method === 'GET'){
+	if($request->method() === 'GET'){
     	    $data = [
         	'title' => 'Администраторская - Эдельвейс - цветочный салон',
         	'page_title' => 'Добавление нового штучного товара',
@@ -67,7 +67,7 @@ class ItemController extends Controller
         	'sets' => Setting::getSet(),
     	    ];
 	}
-	if($request->method === 'POST'){
+	if($request->method() === 'POST'){
 	    try{
 		$validator = Validator::make($request->all(),[
             	    'foto' => 'image|required',
@@ -92,7 +92,7 @@ class ItemController extends Controller
 	    return redirect()->back()->with('message',$mess);
 	}
         $data['item_count'] = 0;
-     //   dd($data);
+//        dd($data);
         return view('item.addsingle',$data);
     }
     //Метод сохранения в базу нового штучного товара
@@ -126,12 +126,9 @@ class ItemController extends Controller
            'page_title' => 'Просмотр товара '.$item['name'],
            'catalog' => Categorie::catalog(),
            'item' => $item,
-           'prices'=> Itemprop::getAllPrices(Itemprop::where('item_id',$item['id'])->orderBy('price','asc')->get()->toArray(),$item['id']),
-           'imgs'=> Itemprop::getImgsInProp(Itemprop::where('item_id',$item['id'])->orderBy('price','asc')->get()->toArray(),$item['viewtype']),
            'sets' => Setting::getSet(),
         ];
         $data['item_count'] = 0;
-        if(Auth::check())$data = Basket::getBasketVars($data,Auth::user()->id);
 //        dd($data);
         return view('item.show',$data);
     }

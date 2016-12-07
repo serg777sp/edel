@@ -1,7 +1,7 @@
 <div class='col-lg-6'>
     <div class="panel panel-warning">
         <div class="panel-heading"><span class="glyphicon glyphicon-pencil"></span> Основные</div>
-        <div class="panel-body">    
+        <div class="panel-body">
             <form class='form' method='post' enctype='multipart/form-data' action="{{url('admin/showcase/edit')}}">
                <div>
                    <label>Категория:</label>
@@ -11,33 +11,33 @@
                          @if($cat['id'] == $item['cat_id'])
                             <option value="{{$cat['id']}}" selected>{{$cat['name']}}<option>
                          @else
-                            <option value="{{$cat['id']}}">{{$cat['name']}}<option> 
-                         @endif          
+                            <option value="{{$cat['id']}}">{{$cat['name']}}<option>
+                         @endif
                       @endforeach
                     </select>
                   @foreach($cats as $cat)
-                  <select id="id{{$cat['id']}}" class='form-control subhid'>
+                  <select id="id{{$cat['id']}}" class='form-control subhid {{$item->getCurrentSubClass($cat->id)}}'>
                       <option value='0' selected>Нет</option>
-                      @foreach($subs as $sub)                                   
+                      @foreach($subs as $sub)
                          @if($cat['id'] == $sub['categorie_id'])
                             @if($sub['id'] == $item['sub_id'])
                                <option value="{{$sub['id']}}" selected>{{$sub['name']}}</option>
                             @else
-                               <option value="{{$sub['id']}}">{{$sub['name']}}</option> 
-                            @endif   
+                               <option value="{{$sub['id']}}">{{$sub['name']}}</option>
+                            @endif
                          @endif
                       @endforeach
                   </select>
-                  @endforeach 
+                  @endforeach
                </div>
-               <div>   
+               <div>
                     <label>Имя:</label>
-                    <input id='item_name' class="form-control" type='text' name='name' placeholder="{{$item['name']}}">
+                    <input id='item_name' class="form-control" type='text' name='name' value="{{$item['name']}}">
                </div>
-                <div>   
+                <div>
                     <label>Описание:</label>
                     <textarea class="form-control" name='description'>{{$item['description']}}</textarea>
-                </div>     
+                </div>
                 <button class="btn btn-success" type='submit' name='button' value='Добавить'>Сохранить изменения</button>
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <input type="hidden" name="item_id" value="{{$item['id']}}">
@@ -50,5 +50,5 @@
            </ul>
            @endif
         </div>
-    </div>    
+    </div>
 </div>

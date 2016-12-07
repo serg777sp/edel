@@ -1,6 +1,5 @@
            <div class="item_card">
-               <?php dd(1214); ?>
-               <img class='card' src="/img/small/{{$item->getPropFirst()->img_url}}">
+               <img class='card' src="/img/small/{{$item->getImageName()}}">
                <h4>{{$item->name}}</h4>
                <div class='rating'>
                   <p>Рейтинг</p>
@@ -8,7 +7,7 @@
                </div>
                <!--  ///////////////////////////////////////////////////////      -->
                @foreach($item->props->sortBy('razmer') as $prop)
-               @if($prop->type == $prop::TYPE_PRICE_SIZE)
+               @if($prop->type == $prop::TYPE_BUKET)
                <div class='razmer' id="{{$item->id}}razmer">
                   <p>Размер</p>
                   <div class='left_arrow but_buk_l'></div>
@@ -43,7 +42,7 @@
                </form>
                <div class='hidden'>
                @foreach($item->props->sortBy('razmer') as $prop)
-                    @if($prop->type == $prop::TYPE_PRICE_SIZE)
+                    @if($prop->type == $prop::TYPE_BUKET)
                         <span class='prices' id="{{$prop->getSizeName()}}-{{$item->id}}">{{$prop->price}}</span>
                     @endif
                @endforeach

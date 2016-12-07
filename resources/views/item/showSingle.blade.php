@@ -11,12 +11,12 @@
                             <button class="btn btn-default btn-no-margin selectDlina" data-dlina='{{$price->dlina}}'>{{$price->dlina}} см</button>
                             <input type="hidden" value="{{$price->price}}">
                         </td>
-                        <td> - {{$price->price}} &#8381;</td> 
+                        <td> - {{$price->price}} &#8381;</td>
                     </tr>
                 @endforeach
-            </table>  
+            </table>
         </div>
-    </div>        
+    </div>
 </div>
 
 <div class='itemProps'>
@@ -26,11 +26,11 @@
             <table class="table">
                 <tr>
                     <td>Цена</td>
-                    <td><span id='currentPrice'>{{$item->getFirstPriceValue()}}</span> &#8381;</td>
+                    <td><span id='currentPrice'>{{$item->getFirstPrice()}}</span> &#8381;</td>
                 </tr>
                 <tr>
                     <td>Длина</td>
-                    <td id='currentDlina'>{{$item->getFirstLength()}} cм</td>
+                    <td id='currentDlina'>{{$item->getFirstSize()}} cм</td>
                 </tr>
                 <tr>
                     <td>Количество</td>
@@ -44,14 +44,14 @@
             <form class='form' method="post" action="{{url('/basket/add')}}">
                 <input type="hidden" id="form_item" name='item_id' value="{{$item->id}}">
                 <input type="hidden" id='form_user' if name='user_id' value="{{Auth::user()->id}}">
-                <input type="hidden" id='form_dlina' name='dlina' value="{{$item->getFirstLength()}}">
+                <input type="hidden" id='form_dlina' name='dlina' value="{{$item->getFirstSize()}}">
                 <input type='hidden' id='form_count' value='1'>
-                <input type="hidden" name="_token" value="{{csrf_token()}}">         
+                <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <button type="button" class="btn btn-block card_button2_color easyAdd">В корзину</button>
             </form>
             <a href="{{ url('/')}}">
                 <button class="btn btn-block btn-warning">Назад</button>
-            </a>    
+            </a>
         </div>
     </div>
 </div>
@@ -62,5 +62,5 @@
         <div class="panel-body">
             {{$item['description']}}
         </div>
-    </div>    
-</div>  
+    </div>
+</div>

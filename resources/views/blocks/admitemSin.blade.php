@@ -1,5 +1,5 @@
             <div class="item_card">
-               <img class='card' src="/img/small/{{$item['url']}}">
+               <img class='card' src="/img/small/{{$item->getImageName()}}">
                <h4>{{$item['name']}}</h4>
                <div class='dlina'>
                  <p>Длинна</p>

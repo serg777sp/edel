@@ -117,16 +117,16 @@ class Itemprop extends Model
 
     public function getSizeName(){
         $res = false;
-        if(!empty($this->razmer)){
-            switch ($this->razmer){
+        if(!empty($this->size)){
+            switch ($this->size){
                 case 1:
-                    $res = 'Маленький';
+                    $res = 'маленький';
                     break;
                 case 2:
-                    $res = 'Средний';
+                    $res = 'средний';
                     break;
                 case 3:
-                    $res = 'Большой';
+                    $res = 'большой';
                     break;
             }
             return $res;

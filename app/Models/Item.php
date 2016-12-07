@@ -55,7 +55,7 @@ class Item extends Model
         }
         if($this->viewtype){
             //для штучных
-            Itemprop::createNewProp(2,$request->all(),$this->id);
+            Itemprop::createNewProp(3,$request->all(),$this->id);
         }
     }
 
@@ -63,7 +63,7 @@ class Item extends Model
     public static function newFlower($request)
     {
 	try {
-	    if(!file_exists('img/original/' . $request->foto->getClientOriginalName()){
+	    if(!file_exists('img/original/' . $request->foto->getClientOriginalName())){
     		$request->file('foto')->move(public_path('img/original/'), $request->file('foto')->getClientOriginalName());
     		$imageR = Image::make('img/original/'.$request->file('foto')->getClientOriginalName())->resize(300,225);
     		$imageR->save('img/small/'.$request->file('foto')->getClientOriginalName());
@@ -71,7 +71,6 @@ class Item extends Model
 
     	    $item = new Item;
     	    $item->name = $request->input('name');
-    	    $item->url= $request->file('foto')->getClientOriginalName();
     	    $item->description = $request->input('description');
     	    if(!empty($request->input('cat')))$item->cat_id = $request->input('cat');
     	    if(!empty($request->input('sub')))$item->sub_id = $request->input('sub');
@@ -81,7 +80,7 @@ class Item extends Model
 	} catch(Exception $e){
 	    return $e->getMessge();
 	}
-    return $item;
+    return 'Товар ' . $item->name . ' успешно создан!';
     }
     //метод добавления фото
     public static function addphoto(Request $request)
@@ -271,6 +270,16 @@ class Item extends Model
         return true;
     }
 
+    public function getPriceBySize($size){
+        return $this->props()->where('size',$size)->get()->first();
+    }
+
+    public function getCurrentSubClass($cat_id){
+        if($this->cat_id === $cat_id){
+            return 'showSub';
+        }
+    }
+
     public function getPhotos(){
        return $this->props()->get()->sortBy('razmer');
     }
@@ -282,19 +291,19 @@ class Item extends Model
         return $this->props()->orderBy('price')->get();
     }
 
-    public function getFirstPriceValue(){
+    public function getFirstPrice(){
         return $this->props()->get()->first()->price;
     }
     public function getFirstSizeName(){
         return $this->props()->get()->first()->getSizeName();
     }
-    public function getFirstLength(){
+    public function getFirstSize(){
         return $this->props()->get()->first()->size;
     }
 
-    public function getFirstSize(){
-        return $this->props()->where('type',1)->first()->razmer;
-    }
+//    public function getFirstSize(){
+//        return $this->props()->where('type',1)->first()->razmer;
+//    }
 
     //Связи
     public function props(){

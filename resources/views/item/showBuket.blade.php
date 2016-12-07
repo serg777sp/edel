@@ -5,9 +5,9 @@
         <div class="panel-body">
             @foreach($item->getPrices() as $price)
                <div>
-                  @if($price->razmer === 1) <button class="btn btn-default btn-block selectSize" data-size='{{$price->razmer}}'>Малый</button> @endif
-                  @if($price->razmer === 2) <button class="btn btn-default btn-block selectSize" data-size='{{$price->razmer}}'>Средний</button> @endif
-                  @if($price->razmer === 3) <button class="btn btn-default btn-block selectSize" data-size='{{$price->razmer}}'>Большой</button> @endif
+                  @if($price->size === 1) <button class="btn btn-default btn-block selectSize" data-size='{{$price->razmer}}'>Малый</button> @endif
+                  @if($price->size === 2) <button class="btn btn-default btn-block selectSize" data-size='{{$price->razmer}}'>Средний</button> @endif
+                  @if($price->size === 3) <button class="btn btn-default btn-block selectSize" data-size='{{$price->razmer}}'>Большой</button> @endif
                   <input type='hidden' value='{{$price->price}}'>
                </div>
             @endforeach
@@ -21,7 +21,7 @@
             <table class="table">
                 <tr>
                     <td>Цена</td>
-                    <td id='currentPrice'>{{$item->getFirstPriceValue()}}</td>
+                    <td id='currentPrice'>{{$item->getFirstPrice()}}</td>
                 </tr>
                 <tr>
                     <td>Размер</td>
