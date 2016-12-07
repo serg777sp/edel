@@ -20,35 +20,21 @@ class Itemprop extends Model
     public static function createNewProp($type,array $params,$item_id)
     {
     $prop = new Itemprop;
-//    if($name=='цена+размер'){
-//        $prop->name = 'цена+размер';
-//        $prop->price = $val1;
-//        $prop->razmer = $val2;
-//    }
-//    if($name=='размер+фото'){
-//        $prop->name = 'размер+фото';
-//        $prop->razmer = $val1;
-//        $prop->imgurl = $val2;
-//    }
-//    if($name=='цена+длина'){
-//        $prop->name = 'цена+длина';
-//        $prop->price = $val1;
-//        $prop->dlina = $val2;
-//    }
-//    if($name=='фото')
-//    {
-//        $prop->name = 'фото';
-//        $prop->imgurl= $val1;
-//    }
         switch ($type) {
             case 1:
                 $prop->size = $params['size'];
                 $prop->img_url = $params['foto']->getClientOriginalName();
                 $prop->price = $params['price'];
                 break;
-
-            default:
-                break;
+	    case 2:
+		$prop->size = $params['size'];
+		$prop->price = $params['price'];
+		break;
+	    case 3:
+		$prop->size = $params['size'];
+		$prop->img_url = $params['foto']->getClientOriginalName();
+		$prop->price = $params['price'];
+		break;
         }
 
     $prop->type = $type;

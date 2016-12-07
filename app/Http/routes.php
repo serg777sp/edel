@@ -31,8 +31,8 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'], function()
     Route::get('/showcase','AdminController@showcase');
     Route::get('/showcase/add/buket','ItemController@createbuket');
     Route::post('/showcase/add/buket','ItemController@createbuket');
-    Route::get('/showcase/add/single','ItemController@createsingle');
-    Route::post('/showcase/add/single','ItemController@checksingle');
+    Route::get('/showcase/add/single','ItemController@createFlower');
+    Route::post('/showcase/add/single','ItemController@createFlower');
     Route::get('/showcase/edit/{id}','ItemController@edit');
     Route::post('/showcase/edit/','ItemController@checkEdit');
     Route::get('/showcase/delete/{id}','ItemController@delete');

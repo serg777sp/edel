@@ -1,4 +1,4 @@
-<img class='bigfoto' src="/img/original/{{$item->url}}">
+<img class='bigfoto' src="/img/original/{{$item->getImageName()}}">
 
 <div class='prices sh with-margin-top-15'>
     <div class="panel panel-warning">

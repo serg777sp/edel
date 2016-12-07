@@ -38,7 +38,7 @@
                       <label>Цена:</label>
                       <input class="form-control" id='price' type='text' name='price'>
                       <label>Длинна:</label>
-                      <select class="form-control" id='dlina' name='dlina'>
+                      <select class="form-control" id='dlina' name='size'>
                           <option value='50'>50 см</option>
                           <option value='60' selected>60 см</option>
                           <option value='70'>70 см</option>

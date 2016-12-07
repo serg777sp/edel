@@ -28,7 +28,7 @@ class Item extends Model
     {
         try{
             if(!file_exists('img/original/' . $request->foto->getClientOriginalName())){
-                var_dump('file not exist');
+        //        var_dump('file not exist');
                 $request->file('foto')->move(public_path('img/original/'), $request->file('foto')->getClientOriginalName());
                 $imageR = Image::make('img/original/'.$request->file('foto')->getClientOriginalName())->resize(300,225);
                 $imageR->save('img/small/'.$request->file('foto')->getClientOriginalName());
@@ -55,26 +55,32 @@ class Item extends Model
         }
         if($this->viewtype){
             //для штучных
-            dd('стоп');
+            Itemprop::createNewProp(2,$request->all(),$this->id);
         }
     }
 
     //Метод создания нового штучного
-    public static function newSingle(Request $request)
+    public static function newFlower($request)
     {
-       $item ='';
-       $request->file('foto')->move(public_path('img/original/'), $request->file('foto')->getClientOriginalName());
-       $imageR = Image::make('img/original/'.$request->file('foto')->getClientOriginalName())->resize(300,225);
-       $imageR->save('img/small/'.$request->file('foto')->getClientOriginalName());
+	try {
+	    if(!file_exists('img/original/' . $request->foto->getClientOriginalName()){
+    		$request->file('foto')->move(public_path('img/original/'), $request->file('foto')->getClientOriginalName());
+    		$imageR = Image::make('img/original/'.$request->file('foto')->getClientOriginalName())->resize(300,225);
+    		$imageR->save('img/small/'.$request->file('foto')->getClientOriginalName());
+	    }
 
-       $item = new Item;
-       $item->name = $request->input('name');
-       $item->url= $request->file('foto')->getClientOriginalName();
-       $item->description = $request->input('description');
-       if(!empty($request->input('cat')))$item->cat_id = $request->input('cat');
-       if(!empty($request->input('sub')))$item->sub_id = $request->input('sub');
-       $item->viewtype = 1;
-       $item->save();
+    	    $item = new Item;
+    	    $item->name = $request->input('name');
+    	    $item->url= $request->file('foto')->getClientOriginalName();
+    	    $item->description = $request->input('description');
+    	    if(!empty($request->input('cat')))$item->cat_id = $request->input('cat');
+    	    if(!empty($request->input('sub')))$item->sub_id = $request->input('sub');
+    	    $item->viewtype = 1;
+    	    $item->save();
+	    $item->saveItemProp($request);
+	} catch(Exception $e){
+	    return $e->getMessge();
+	}
     return $item;
     }
     //метод добавления фото
@@ -273,17 +279,17 @@ class Item extends Model
     }
 
     public function getPrices(){
-        return $this->props()->where('type',$this->viewtype+1)->orderBy('price')->get();
+        return $this->props()->orderBy('price')->get();
     }
 
     public function getFirstPriceValue(){
-        return $this->props()->where('type',$this->viewtype+1)->first()->price;
+        return $this->props()->get()->first()->price;
     }
     public function getFirstSizeName(){
-        return $this->props()->where('type',1)->first()->getSizeName();
+        return $this->props()->get()->first()->getSizeName();
     }
     public function getFirstLength(){
-        return $this->props()->where('type',2)->first()->dlina;
+        return $this->props()->get()->first()->size;
     }
 
     public function getFirstSize(){

@@ -46,7 +46,7 @@ class ItemController extends Controller
                 }
                 $mess = Item::newBuket($request);
             } catch (Exception $e){
-                dd($e);
+                //dd($e);
                 $mess = $e->getMessage();
             }
 
@@ -56,17 +56,42 @@ class ItemController extends Controller
         return view('item.addbuket',$data);
     }
     //Метод  добавления штучного товара
-    public function createsingle()
+    public function createFlower(Request $request)
     {
-        $data = [
-            'title' => 'Администраторская - Эдельвейс - цветочный салон',
-            'page_title' => 'Добавление нового штучного товара',
-            'cats' => Categorie::all()->toArray(),
-            'subs' => Subcategorie::all()->toArray(),
-            'sets' => Setting::getSet(),
-        ];
+	if($request->method === 'GET'){
+    	    $data = [
+        	'title' => 'Администраторская - Эдельвейс - цветочный салон',
+        	'page_title' => 'Добавление нового штучного товара',
+        	'cats' => Categorie::all()->toArray(),
+        	'subs' => Subcategorie::all()->toArray(),
+        	'sets' => Setting::getSet(),
+    	    ];
+	}
+	if($request->method === 'POST'){
+	    try{
+		$validator = Validator::make($request->all(),[
+            	    'foto' => 'image|required',
+            	    'name' => 'required|string|max:255',
+            	    'price' => 'required|numeric|digits_between:0,99999.99',
+            	    'size'=> 'required|numeric|digits_between:0,120',
+            	    'description' => 'required|string',
+    		]);
+		if($validator->fails()){
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+                $validator2 = Validator::make(['image' => $request->foto->getClientOriginalName()], [ 'image' => 'unique:item_props,img_url']);
+                if($validator2->fails()){
+                    return redirect()->back()->withErrors($validator2)->withInput();
+                }
+                $mess = Item::newFlower($request);
+
+	    } catch (Exception $e){
+		$mess = $e->getMessage();
+	    }
+//	    dd('before redirect');
+	    return redirect()->back()->with('message',$mess);
+	}
         $data['item_count'] = 0;
-        if(Auth::check())$data = Basket::getBasketVars($data,Auth::user()->id);
      //   dd($data);
         return view('item.addsingle',$data);
     }
@@ -207,19 +232,6 @@ class ItemController extends Controller
     return redirect()->back()->with('message','Цена удалена');
     }
 
-
-    public function checksingle(Request $request)
-    {
-        //Тут будет валидация
-        $this->validate($request, [
-               'foto' => 'image|required',
-               'name' => 'required|string|max:255',
-               'price' => 'required|numeric|digits_between:0,99999.99',
-               'dlina'=> 'required|numeric|digits_between:0,120',
-               'description' => 'required|string',
-     ]);
-    return $this->storesingle($request);
-    }
     public function checkEdit(Request $request)
     {
         //Тут будет валидация
