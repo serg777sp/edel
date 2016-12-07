@@ -95,15 +95,7 @@ class ItemController extends Controller
 //        dd($data);
         return view('item.addsingle',$data);
     }
-    //Метод сохранения в базу нового штучного товара
-    public function storesingle(Request $request)
-    {
-       $item = Item::newSingle($request);
-       Itemprop::createNewProp('цена+длина',$request->input('price'),$request->input('dlina'),$item->id);
-       Itemprop::createNewProp('фото',$request->file('foto')->getClientOriginalName(),0,$item->id);
-       $mess = 'Штучный товар '.$item->name.' создан!';
-       return redirect('/admin/showcase')->with('message',$mess);
-    }
+
     public function storeEdit(Request $request)
     {
     //Метод обновления основных данных товаров
@@ -214,9 +206,11 @@ class ItemController extends Controller
         return redirect('/admin/showcase')->with('message',$mess);
     }
     //Метод редактирования цен
-    public function editprice(Request $request,$viewtype)
+    public function editprice(Request $request)
     {
-        $mess = Item::editprice($request,$viewtype);
+        $item = Item::find($request->item_id);
+        $mess = $item->editPrices($request->all());
+//        $mess = Item::editprice($request,$viewtype);
     return redirect()->back()->with('message',$mess);
     }
     public function delprice($value,$item_id)

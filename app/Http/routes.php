@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'], function()
     Route::post('/users/edit','AdminController@checkedit');
     Route::post('/item/addphoto/','ItemController@addphoto');
     Route::post('/item/photo/update','ItemController@updatephoto');
-    Route::post('/item/edit/price/{viewtype}','ItemController@editprice');
+    Route::post('/item/edit/price','ItemController@editprice');
     Route::get('/item/del/price/{value}/{item_id}','ItemController@delprice');
     Route::get('/orders','AdminController@showOrders');
     Route::get('/settings','AdminController@settings');
@@ -97,7 +97,7 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/reqcall','UserController@ReqCall');
     Route::post('/reqcall','UserController@ReqCall');
     Route::any('/item/sort','ItemController@sortByCat');
-    
+
     Route::get('/test','AdminController@test');
 // POST-запрос при нажатии на нашу кнопку.
 //Route::post('/basket/ajaxadd', array('before'=>'csrf-ajax', 'as'=>'more', 'uses'=>'BasketController@ajaxAdd'));
@@ -128,11 +128,11 @@ Route::get('/home', 'HomeController@index');
     Route::get('/', function () {
     return view('welcome');
     });
-    
+
     Route::get('/destination/adress/add','HomeController@adddesadress');
     Route::post('/destination/adress/add','HomeController@desadresssave');
     Route::get('/destination/phone/add','HomeController@adddesphone');
-    Route::post('/destination/phone/add','HomeController@desphonesave');    
-    
-    
-*/    
+    Route::post('/destination/phone/add','HomeController@desphonesave');
+
+
+*/

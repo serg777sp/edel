@@ -138,41 +138,40 @@ class Item extends Model
     return 'Фото обновлено';
     }
     //Метод редактирования цен
-    public static function editprice(Request $request,$viewtype)
+    public function editPrices(array $params)
     {
-      $props = Itemprop::where('item_id', '=',$request->input('item_id'))->get();
-      $mess='';
-      if($viewtype==0){
-        for($i=1; $i<4;$i++){
-          if(!empty($request->input($i))){
-            $oldprice = Itemprop::getOldPrice($props,$i,'цена+размер');
+        try{
+            //Редактируем цены букетов
+            if($this->viewtype === 0){
+                foreach ($params as $key => $param){
+                    switch ($key) {
+                      case 1:
+                          $prop = $this->props()->where('size',1)->get()->first();
+                          break;
+                      case 2:
+                          $prop = $this->props()->where('size',2)->get()->first();
+                          break;
+                      case 3:
+                          $prop = $this->props()->where('size',3)->get()->first();
+                          break;
+                    }
+                    if(is_numeric($key) && empty($prop)){
+                        $prop = new Itemprop();
+                        $prop->item_id = $this->id;
+                    } elseif(!empty($prop)){
+                        $prop->price = $param;
+                        $prop->save();
+                    }
+                }
+                $mess = 'Цены успешно отредактированы!';
+            }
+            //Редактируем цены штучных
+            if($this->viewtype === 1){
 
-            if(!empty($oldprice)){
-               $oldprice->price = $request->input($i);
-               $oldprice->save();
-               $mess .= '|'.$i.' цена изменена ';
-            }else{
-               Itemprop::createNewProp('цена+размер',$request->input($i),$i,$request->input('item_id'));
-               $mess .= '|'.$i.' цена создана ';
             }
-          }
+        } catch (Exception $e){
+            $mess = $e->getMessage();
         }
-      }
-      if($viewtype==1){
-        for($i=50; $i<120;$i+=10){
-          if(!empty($request->input($i))){
-            $oldprice = Itemprop::getOldPrice($props,$i,'цена+длина');
-            if(!empty($oldprice)){
-               $oldprice->price = $request->input($i);
-               $oldprice->save();
-               $mess .= '|'.$i.' цена изменена ';
-            }else{
-               Itemprop::createNewProp('цена+длина',$request->input($i),$i,$request->input('item_id'));
-               $mess .= '|'.$i.' цена создана ';
-            }
-          }
-        }
-      }
     return $mess;
     }
 

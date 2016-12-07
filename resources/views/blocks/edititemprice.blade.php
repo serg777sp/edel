@@ -3,7 +3,7 @@
         <div class="panel panel-warning">
             <div class="panel-heading"><span class="glyphicon glyphicon-apple"></span> Цены</div>
             <div class="panel-body">
-                <form class='form' method='post' action="{{url('/admin/item/edit/price/0')}}">
+                <form class='form' method='post' action="{{url('/admin/item/edit/price')}}">
                 @for ($i = 1; $i < 4; $i++)
                     <div>
                         @if(!empty($item->getPriceBySize($i)))
@@ -15,7 +15,7 @@
                                                         @if($i==1) Маленький @endif
                             @if($i==2) Средний @endif
                             @if($i==3) Большой @endif
-                            размер<input maxlength='8' name='{{$i}}' class='admprice' type='text'">&#8381;
+                            размер<input maxlength='8' name='{{$i}}' class='admprice' type='text'>&#8381;
                         @endif
                     </div>
                @endfor
@@ -31,7 +31,7 @@
         <div class="panel panel-warning">
             <div class="panel-heading"><span class="glyphicon glyphicon-apple"></span> Цены</div>
             <div class="panel-body">
-                <form class='form' method='post' action="{{url('/admin/item/edit/price/1')}}">
+                <form class='form' method='post' action="{{url('/admin/item/edit/price')}}">
                 @for ($i = 50; $i < 120; $i += 10)
                     <div>
                        @if(!empty($item->getPriceBySize($i)))
