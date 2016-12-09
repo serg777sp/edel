@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'], function()
     Route::post('/item/addphoto/','ItemController@addphoto');
     Route::post('/item/photo/update','ItemController@updatephoto');
     Route::post('/item/edit/price','ItemController@editprice');
+    Route::get('/item/price/delete/{id}','ItemController@deletePrice');
     Route::get('/item/del/price/{value}/{item_id}','ItemController@delprice');
     Route::get('/orders','AdminController@showOrders');
     Route::get('/settings','AdminController@settings');

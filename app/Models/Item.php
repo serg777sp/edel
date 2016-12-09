@@ -143,22 +143,15 @@ class Item extends Model
         try{
             //Редактируем цены букетов
             if($this->viewtype === 0){
-                foreach ($params as $key => $param){
-                    switch ($key) {
-                      case 1:
-                          $prop = $this->props()->where('size',1)->get()->first();
-                          break;
-                      case 2:
-                          $prop = $this->props()->where('size',2)->get()->first();
-                          break;
-                      case 3:
-                          $prop = $this->props()->where('size',3)->get()->first();
-                          break;
-                    }
-                    if(is_numeric($key) && empty($prop)){
+                foreach ($this->getOnlyPrices($params) as $key => $param){
+                    $prop = $this->props()->where('size', $key)->get()->first();
+                    if(empty($prop)){
                         $prop = new Itemprop();
+                        $prop->type = $prop::TYPE_BUKET;
+                        $prop->size = $key;
                         $prop->item_id = $this->id;
-                    } elseif(!empty($prop)){
+                    }
+                    if(!empty($param)){
                         $prop->price = $param;
                         $prop->save();
                     }
@@ -277,6 +270,12 @@ class Item extends Model
         if($this->cat_id === $cat_id){
             return 'showSub';
         }
+    }
+
+    public function getOnlyPrices($params) {
+        unset($params['item_id']);
+        unset($params['_token']);
+        return $params;
     }
 
     public function getPhotos(){

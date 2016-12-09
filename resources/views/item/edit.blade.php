@@ -12,7 +12,7 @@
                   @include('blocks.admitemSin')
             @endif
             <div>
-                @foreach($item->props()->get() as $prop)
+                @foreach($item->props()->orderBy('size')->get() as $prop)
                     <button class="btn btn-lg btn-info show_photo" data-url="{{$prop->img_url}}">{{$prop->size}}</button>
                 @endforeach
             </div>

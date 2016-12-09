@@ -10,9 +10,10 @@
                             @if($i==1) Маленький @endif
                             @if($i==2) Средний @endif
                             @if($i==3) Большой @endif
-                            размер<input maxlength='8' name='{{$i}}' class='admprice' type='text' value="{{$item->getPriceBySize($i)->price}}">&#8381;
+                            размер  <a href="{{url('/admin/item/price/delete')}}/{{$item->getPriceBySize($i)->id}}"><span class="glyphicon glyphicon-remove-circle"></span></a>
+                                    <input maxlength='8' name='{{$i}}' class='admprice' type='text' value="{{$item->getPriceBySize($i)->price}}">&#8381;
                         @else
-                                                        @if($i==1) Маленький @endif
+                            @if($i==1) Маленький @endif
                             @if($i==2) Средний @endif
                             @if($i==3) Большой @endif
                             размер<input maxlength='8' name='{{$i}}' class='admprice' type='text'>&#8381;

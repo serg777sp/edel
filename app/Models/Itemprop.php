@@ -135,6 +135,12 @@ class Itemprop extends Model
         }
     }
 
+    public function deleteImage() {
+        if(!empty($this->img_url)){
+            dd($this);
+        }
+    }
+
     //Связи
     public function item(){
         return $this->belongsTo('App\Models\Item');

@@ -213,13 +213,11 @@ class ItemController extends Controller
 //        $mess = Item::editprice($request,$viewtype);
     return redirect()->back()->with('message',$mess);
     }
-    public function delprice($value,$item_id)
+    public function deletePrice($id)
     {
-        $item = Item::find($item_id);
-        $props = Itemprop::all()->where('item_id',$item->id);
-        foreach ($props as $prop) {
-            if($prop->razmer==$value || $prop->dlina==$value)$prop->delete();
-        }
+        $prop = Itemprop::find($id);
+        $prop->deleteImage();
+        $prop->delete();
     return redirect()->back()->with('message','Цена удалена');
     }
 
