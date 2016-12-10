@@ -43,7 +43,11 @@
 </div>
 <div class="hidden_block">
     @foreach($item->getPhotos() as $photo)
-    <input type="hidden" id='photo_razmer{{$photo->size}}' value='{{$photo->img_url}}'>
+        @if(!empty($photo->img_url))
+            <input type="hidden" id='photo_razmer{{$photo->size}}' value='{{$photo->img_url}}'>
+        @else
+            <input type="hidden" id='photo_razmer{{$photo->size}}' value='noImage.jpg'>
+        @endif
     @endforeach
 </div>
 <div class='description'>

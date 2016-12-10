@@ -13,7 +13,11 @@
             @endif
             <div>
                 @foreach($item->props()->orderBy('size')->get() as $prop)
-                    <button class="btn btn-lg btn-info show_photo" data-url="{{$prop->img_url}}">{{$prop->size}}</button>
+                    @if(!empty($prop->img_url))
+                        <button class="btn btn-lg btn-info show_photo" data-url="{{$prop->img_url}}">{{$prop->size}}</button>
+                    @else
+                        <button class="btn btn-lg btn-info show_photo" data-url="noImage.jpg">{{$prop->size}}</button>
+                    @endif
                 @endforeach
             </div>
         </div>

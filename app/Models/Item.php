@@ -83,58 +83,57 @@ class Item extends Model
     return 'Товар ' . $item->name . ' успешно создан!';
     }
     //метод добавления фото
-    public static function addphoto(Request $request)
+    public static function addphoto(array $params)
     {
-    $request->file('foto')->move(public_path('img/original/'), $request->file('foto')->getClientOriginalName());
-    $prop = new Itemprop;
-    $prop->imgurl = $request->file('foto')->getClientOriginalName();
-    $prop->item_id = $request->input('item_id');
-    if($request->input('viewtype') == 1)$prop->name = 'фото';
-    if($request->input('viewtype') == 0)
-    {
-        $prop->name = 'размер+фото' ;
-        $prop->razmer = $request->input('razmer');
-    }
-    $prop->save();
+        if(!file_exists( 'img/original/' . $params['foto']->getClientOriginalName())){
+            $params['foto']->move(public_path('img/original/'), $params['foto']->getClientOriginalName());
+        }
+        $prop = Itemprop::where('item_id',$params['item_id'])->where('size',$params['size'])->get()->first();
+        $prop->img_url = $params['foto']->getClientOriginalName();
+        $prop->save();
     return 'Фото добавлено';
     }
     //Метод обновления фото
-    public static function updatephoto(Request $request)
+    public static function updatephoto(array $params)
     {
- //  dd($request->input('item_id'));
-    $request->file('foto')->move(public_path('img/original/'), $request->file('foto')->getClientOriginalName());
-    $item = Item::find($request->input('item_id'));
-    $props = Itemprop::all()->where('item_id',$item->id)->toArray();
-    $imgs = Itemprop::getImgsInProp($props,$request->input('viewtype'));
-  //  dd($imgs);
-    if($request->input('viewtype')==0){
-       foreach($imgs as $key => $value){
-           if($key == $request->input('razmer')){
-               echo 'Было совпадение урл';
-              if(Storage::disk('public')->exists('/img/original/'.$value))Storage::disk('public')->delete('/img/original/'.$value);
-              $oldimg = Itemprop::where('imgurl','=',$value);
-              $newimg = Itemprop::createNewProp('размер+фото',$request->input('razmer'),$request->file('foto')->getClientOriginalName(),$request->input('item_id'));
-           }
-       }
-    }
-    if($request->input('viewtype')==1){
-       foreach($imgs as $key => $value){
-           if($key == $request->input('razmer')){
-              echo 'Было совпадение урл';
-              if(Storage::disk('public')->exists('/img/original/'.$value))Storage::disk('public')->delete('/img/original/'.$value);
-              $oldimg = Itemprop::where('imgurl','=',$value);
-              $newimg = Itemprop::createNewProp('фото',$request->file('foto')->getClientOriginalName(),1,$request->input('item_id'));
-           }
-       }
-    }
-    if($request->input('imp')=='true'){
-       $imageR = Image::make('img/original/'.$request->file('foto')->getClientOriginalName())->resize(300,225);
-       $imageR->save('img/small/'.$request->file('foto')->getClientOriginalName());
-       if(Storage::disk('public')->exists('/img/small/'.$oldimg->imgurl))Storage::disk('public')->delete('/img/original/'.$oldimg->imgurl);
-       $item->url= $request->file('foto')->getClientOriginalName();
-       $item->save();
-    }
-    $oldimg->delete();
+        $prop = Itemprop::where('item_id', $params['item_id'])->where('size', $params['size'])->get()->first();
+        $prop->deleteImages();
+        $prop->saveNewImages($params['foto']);
+        $prop->img_url = $params['foto']->getClientOriginalName();
+        $prop->save();
+//    $request->file('foto')->move(public_path('img/original/'), $request->file('foto')->getClientOriginalName());
+//    $item = Item::find($request->input('item_id'));
+//    $props = Itemprop::all()->where('item_id',$item->id)->toArray();
+//    $imgs = Itemprop::getImgsInProp($props,$request->input('viewtype'));
+//  //  dd($imgs);
+//    if($request->input('viewtype')==0){
+//       foreach($imgs as $key => $value){
+//           if($key == $request->input('razmer')){
+//               echo 'Было совпадение урл';
+//              if(Storage::disk('public')->exists('/img/original/'.$value))Storage::disk('public')->delete('/img/original/'.$value);
+//              $oldimg = Itemprop::where('imgurl','=',$value);
+//              $newimg = Itemprop::createNewProp('размер+фото',$request->input('razmer'),$request->file('foto')->getClientOriginalName(),$request->input('item_id'));
+//           }
+//       }
+//    }
+//    if($request->input('viewtype')==1){
+//       foreach($imgs as $key => $value){
+//           if($key == $request->input('razmer')){
+//              echo 'Было совпадение урл';
+//              if(Storage::disk('public')->exists('/img/original/'.$value))Storage::disk('public')->delete('/img/original/'.$value);
+//              $oldimg = Itemprop::where('imgurl','=',$value);
+//              $newimg = Itemprop::createNewProp('фото',$request->file('foto')->getClientOriginalName(),1,$request->input('item_id'));
+//           }
+//       }
+//    }
+//    if($request->input('imp')=='true'){
+//       $imageR = Image::make('img/original/'.$request->file('foto')->getClientOriginalName())->resize(300,225);
+//       $imageR->save('img/small/'.$request->file('foto')->getClientOriginalName());
+//       if(Storage::disk('public')->exists('/img/small/'.$oldimg->imgurl))Storage::disk('public')->delete('/img/original/'.$oldimg->imgurl);
+//       $item->url= $request->file('foto')->getClientOriginalName();
+//       $item->save();
+//    }
+//    $oldimg->delete();
     return 'Фото обновлено';
     }
     //Метод редактирования цен
@@ -160,7 +159,7 @@ class Item extends Model
             }
             //Редактируем цены штучных
             if($this->viewtype === 1){
-
+                dd('edit prices single flower');
             }
         } catch (Exception $e){
             $mess = $e->getMessage();
@@ -279,7 +278,7 @@ class Item extends Model
     }
 
     public function getPhotos(){
-       return $this->props()->get()->sortBy('razmer');
+       return $this->props()->orderBy('size')->get();
     }
     public function getImageName(){
         return $this->props()->get()->first()->img_url;

@@ -148,13 +148,21 @@ class ItemController extends Controller
     //Метод добавления фоток к товарам
     public function addphoto(Request $request)
     {
-    $mess = Item::addphoto($request);
-    return redirect()->back()->with('message',$mess);
+        $validator = Validator::make(['image' => $request->foto->getClientOriginalName()], [ 'image' => 'unique:item_props,img_url']);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $mess = Item::addphoto($request->all());
+        return redirect()->back()->with('message',$mess);
     }
     //Метод обновления фоток к товарам
     public function updatephoto(Request $request)
     {
-    $mess = Item::updatephoto($request);
+        $validator = Validator::make(['image' => $request->foto->getClientOriginalName()], [ 'image' => 'unique:item_props,img_url']);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $mess = Item::updatephoto($request->all());
     return redirect()->back()->with('message',$mess);
     }
     //Метод вывода поддверждения удаления товара

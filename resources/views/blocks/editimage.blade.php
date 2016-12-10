@@ -1,61 +1,23 @@
 <div class="panel panel-warning">
     <div class="panel-heading"><span class="glyphicon glyphicon-apple"></span> Редактирование фотографий</div>
-    <div class="panel-body">     
-        @for ($i=0; $i < 3; $i++)
-              @if(!empty($imgs[$i]))
-                 @if($imgs[$i]->imgurl==$item['url'])
-                 Главная - 
-                 @endif
-                 <button id="changeform{{$i}}" class="btn btn-warning show_image_form">Изменить фото 
-                    @if($item['viewtype']==0)
-                       @if($i==0)
-                       малого букета
-                       @endif
-                       @if($i==1)
-                       среднего букета
-                       @endif
-                       @if($i==2)
-                       большого букета
-                       @endif
-                    @else
-                     № {{$i}}                    
-                    @endif    
-                 </button>   
-              @else
-                 <button id="addingform{{$i}}" class="btn btn-warning show_image_form">Добавить фото
-                    @if($item['viewtype']==0)
-                       @if($i==0)
-                       малого букета
-                       @endif
-                       @if($i==1)
-                       среднего букета
-                       @endif
-                       @if($i==2)
-                       большого букета
-                       @endif
-                    @else
-                     № {{$i}}                    
-                    @endif      
-                 </button>
-              @endif  
-       @endfor
+    <div class="panel-body">
+        @foreach($imgs as $img)
+            @if(!empty($img->img_url))
+                <button id="changeform{{$img->size}}" class="btn btn-warning show_image_form">Изменить {{$img->getSizeName()}} размер</button>
+            @else
+                <button id="addingform{{$img->size}}" class="btn btn-warning show_image_form">Добавить {{$img->getSizeName()}} размер</button>
+            @endif
+        @endforeach
+<!--Forms-->
 @for ($i=0; $i < 3; $i++)
 <div class='changeform{{$i}} hidden_block change_form'>
     <form class='form' enctype='multipart/form-data' method='post' action="{{url('/admin/item/photo/update')}}">
         <input class="form-control" type='file' name='foto'>
         <button class="btn btn-default" type='submit'>Изменить фото</button>
         <button class='reset btn btn-default' type='reset'>сбросить</button>
-         @if(!empty($imgs[$i]))
-            @if($imgs[$i]==$item['url'])
-            <input type='hidden' name='imp' value='true'>
-            @else
-            <input type='hidden' name='imp' value='false'>
-            @endif
-         @endif
-         <input type="hidden" name="_token" value="{{csrf_token()}}">
-         <input type="hidden" name="item_id" value="{{$item['id']}}">
-         <input type="hidden" name="razmer" value="{{$i}}">
-         <input type="hidden" name="viewtype" value="{{$item['viewtype']}}">  
+        <input type="hidden" name="_token" value="{{csrf_token()}}">
+        <input type="hidden" name="item_id" value="{{$item['id']}}">
+        <input type="hidden" name="size" value="{{$i}}">
     </form>
 </div>
 @endfor
@@ -67,8 +29,7 @@
         <button class='reset btn btn-default' type='reset'>сбросить</button>
         <input type="hidden" name="_token" value="{{csrf_token()}}">
         <input type="hidden" name="item_id" value="{{$item['id']}}">
-        <input type="hidden" name="razmer" value="{{$i}}">
-        <input type="hidden" name="viewtype" value="{{$item['viewtype']}}">  
+        <input type="hidden" name="size" value="{{$i}}">
     </form>
 </div>
 @endfor

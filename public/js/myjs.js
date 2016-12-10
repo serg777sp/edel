@@ -595,7 +595,6 @@ $( document ).ready(function(){
         $(this).addClass('btn-warning');
         $(this).addClass('selected');
         $('.bigfoto').attr('src','/img/original/'+url);
-        console.log(url);
     });
 
     var s = getQueryVariable('catId');

@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
+use Intervention\Image\Facades\Image;
 
 class Itemprop extends Model
 {
@@ -135,9 +135,28 @@ class Itemprop extends Model
         }
     }
 
-    public function deleteImage() {
+    public function saveNewImages($foto) {
+        if(!file_exists('img/original/' . $foto->getClientOriginalName())){
+            $foto->move(public_path('img/original/'), $foto->getClientOriginalName());
+            if($this->is_general){
+                $imageR = Image::make('img/original/'.$foto->getClientOriginalName())->resize(300,225);
+                $imageR->save('img/small/'.$foto->getClientOriginalName());
+            }
+        }
+    }
+
+    public function deleteImages() {
         if(!empty($this->img_url)){
-            dd($this);
+            if(file_exists('img/original/' . $this->img_url)){
+                //delete original image
+                unlink('img/original/' . $this->img_url);
+            }
+            if($this->is_general){
+                if(file_exists('img/small/' . $this->img_url)){
+                    //delete small image
+                    unlink('img/small/' . $this->img_url);
+                }
+            }
         }
     }
 
