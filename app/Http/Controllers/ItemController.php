@@ -224,7 +224,10 @@ class ItemController extends Controller
     public function deletePrice($id)
     {
         $prop = Itemprop::find($id);
-        $prop->deleteImage();
+        if($prop->is_general){
+            return redirect()->back()->with('message','Цена связанна с главным изображением, удаление невозможно!');
+        }
+        $prop->deleteImages();
         $prop->delete();
     return redirect()->back()->with('message','Цена удалена');
     }

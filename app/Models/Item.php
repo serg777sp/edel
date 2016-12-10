@@ -140,27 +140,20 @@ class Item extends Model
     public function editPrices(array $params)
     {
         try{
-            //Редактируем цены букетов
-            if($this->viewtype === 0){
-                foreach ($this->getOnlyPrices($params) as $key => $param){
-                    $prop = $this->props()->where('size', $key)->get()->first();
-                    if(empty($prop)){
-                        $prop = new Itemprop();
-                        $prop->type = $prop::TYPE_BUKET;
-                        $prop->size = $key;
-                        $prop->item_id = $this->id;
-                    }
-                    if(!empty($param)){
-                        $prop->price = $param;
-                        $prop->save();
-                    }
+            foreach ($this->getOnlyPrices($params) as $key => $param){
+                $prop = $this->props()->where('size', $key)->get()->first();
+                if(empty($prop)){
+                    $prop = new Itemprop();
+                    $prop->type = $this->viewtype ? $prop::TYPE_FLOWER : $prop::TYPE_BUKET;
+                    $prop->size = $key;
+                    $prop->item_id = $this->id;
                 }
-                $mess = 'Цены успешно отредактированы!';
+                if(!empty($param)){
+                    $prop->price = $param;
+                    $prop->save();
+                }
             }
-            //Редактируем цены штучных
-            if($this->viewtype === 1){
-                dd('edit prices single flower');
-            }
+            $mess = 'Цены успешно отредактированы!';
         } catch (Exception $e){
             $mess = $e->getMessage();
         }
@@ -278,8 +271,25 @@ class Item extends Model
     }
 
     public function getPhotos(){
-       return $this->props()->orderBy('size')->get();
+        if($this->viewtype === 0){
+            return $this->props()->orderBy('size')->get();
+        }
+        if($this->viewtype === 1){
+            return $this->props()->where('img_url','!=', '')->orderBy('size')->get();
+        }
     }
+
+    public function getRandomSizeWithoutPhoto() {
+        $prop = $this->props()->where('img_url',NULL)->get()->first();
+        if($prop){
+            return $prop->size;
+        }
+    }
+
+    public function getFreePropsCount() {
+        return $prop = $this->props()->where('img_url',NULL)->get()->count();
+    }
+
     public function getImageName(){
         return $this->props()->get()->first()->img_url;
     }

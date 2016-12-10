@@ -39,8 +39,8 @@
                </form>
                <div class='hidden'>
                    <span class="single_value{{$item->id}}">{{$item->getFirstPrice()}}</span>
-               @foreach($item->props()->get() as $prop)
-                   <span class='dlini' id="{{$prop->dlina}}{{$item->id}}">{{$prop->price}}</span>
+               @foreach($item->props()->orderBy('size')->get() as $prop)
+                   <span class='dlini' id="{{$prop->size}}{{$item->id}}">{{$prop->price}}</span>
                @endforeach
                </div>
             </div>

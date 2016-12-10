@@ -128,6 +128,8 @@ class Itemprop extends Model
                 case 3:
                     $res = 'большой';
                     break;
+                default :
+                    $res = 'фото';
             }
             return $res;
         } else {
