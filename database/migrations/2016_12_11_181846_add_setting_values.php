@@ -16,32 +16,32 @@ class AddSettingValues extends Migration
         //
         $set = new Setting();
         $set->name = 'phone1';
-        $set->value = ' ';
+        $set->val = ' ';
         $set->save();
 
         $set = new Setting();
         $set->name = 'phone2';
-        $set->value = ' ';
+        $set->val = ' ';
         $set->save();
 
         $set = new Setting();
         $set->name = 'slide1';
-        $set->value = ' ';
+        $set->val = ' ';
         $set->save();
 
         $set = new Setting();
         $set->name = 'slide2';
-        $set->value = ' ';
+        $set->val = ' ';
         $set->save();
 
         $set = new Setting();
         $set->name = 'slide3';
-        $set->value = ' ';
+        $set->val = ' ';
         $set->save();
 
         $set = new Setting();
         $set->name = 'slide4';
-        $set->value = ' ';
+        $set->val = ' ';
         $set->save();
     }
 
