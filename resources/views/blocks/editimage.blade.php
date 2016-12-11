@@ -18,7 +18,7 @@
             @endif
         @endif
 <!--Forms-->
-@for ($i=0; $i < 3; $i++)
+@for ($i=1; $i < 4; $i++)
 <div class='changeform{{$i}} hidden_block change_form'>
     <form class='form' enctype='multipart/form-data' method='post' action="{{url('/admin/item/photo/update')}}">
         <input class="form-control" type='file' name='foto'>
@@ -30,7 +30,7 @@
     </form>
 </div>
 @endfor
-@for ($i=0; $i < 3; $i++)
+@for ($i=1; $i < 4; $i++)
 <div class='addingform{{$i}} hidden_block add_form'>
     <form class='form' enctype='multipart/form-data' method='post' action="{{url('/admin/item/addphoto')}}">
         <input class="form-control" type='file' name='foto'>

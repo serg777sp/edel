@@ -99,7 +99,7 @@ class Itemprop extends Model
     if($param==0){
         foreach($props as $prop)
         {
-            if(($prop['razmer'] == $op_val) && !empty($prop['price'])){
+            if(($prop['size'] == $op_val) && !empty($prop['price'])){
                 $price= $prop['price'];
             }
         }
@@ -107,7 +107,7 @@ class Itemprop extends Model
     if($param==1){
         foreach($props as $prop)
         {
-            if(($prop['dlina'] == $op_val) && !empty($prop['price'])){
+            if(($prop['size'] == $op_val) && !empty($prop['price'])){
                 $price= $prop['price'];
             }
         }

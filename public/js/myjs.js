@@ -257,7 +257,6 @@ $( document ).ready(function(){
     var dlina = $('#dlina'+id).val();
     var user_id = $('#form_user'+id).val();
     var item_id = $('#form_item'+id).val();
-
         $.ajax({
             url: '/basket/ajaxadd',
             method: 'POST',
@@ -296,28 +295,6 @@ $( document ).ready(function(){
         e.preventDefault();
     });
 
-//    $('body').on('click','.sortOrders',function(e){
-//        e.preventDefault();
-//        $.ajax({
-//            url: '/admin/order/sort',
-//            method: 'POST',
-//            dataType: 'html',
-//            data: {
-//                orderType:$(this).attr('data-type'),
-//            },
-//            headers: {
-//                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-//            },
-//            success: function(data)
-//            {
-//                $('.orders_box').html(data);
-//            },
-//            error: function(msg){
-//                console.log(msg);
-//            }
-//        });
-//    });
-
     $('body').on('click','.showCat',function(e){
         e.preventDefault();
         $('#catId').val($(this).attr('data-id'));
@@ -344,9 +321,6 @@ $( document ).ready(function(){
         });
     });
 
-//    $('body0').on('change','i-range',function(e){
-//        console.log(e);
-//    });
     window.onchangePrice =  function(t){
         var el = $('[data-type='+t+']');
 //        console.log(el.val());
@@ -627,16 +601,16 @@ $( document ).ready(function(){
     /////////////////////////////Р¤СѓРЅРєС†РёРё//////////////////////////////////
 function getNum($str){
     var res;
-    if($str == 'Маленький')res=1;
-    if($str == 'Средний')res=2;
-    if($str == 'Большой')res=3;
+    if($str == 'маленький')res=1;
+    if($str == 'средний')res=2;
+    if($str == 'большой')res=3;
     return res;
 }
 function getStr($num){
     var res;
-    if($num == 1)res='Маленький';
-    if($num == 2)res='Средний';
-    if($num == 3)res='Большой';
+    if($num == 1)res='маленький';
+    if($num == 2)res='средний';
+    if($num == 3)res='большой';
     return res;
 }
 function getID($str,$id){
